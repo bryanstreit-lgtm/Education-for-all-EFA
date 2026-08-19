@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EducaMundo - Plataforma de Aulas</title>
+    <style>
+        /* CSS para o Layout */
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .video-player { width: 100%; height: 450px; background-color: #000; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; }
+        .actions-bar { display: flex; justify-content: space-between; margin-top: 15px; flex-wrap: wrap; gap: 10px; }
+        button, .btn-download { background-color: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; text-decoration: none; font-size: 14px; }
+        button:hover, .btn-download:hover { background-color: #0056b3; }
+        .translation-zone { background: #e9ecef; padding: 15px; margin-top: 20px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Título da Aula e Perfil do Professor -->
+        <h2>Aula: Introdução à Inteligência Artificial</h2>
+        <p>Postado por: <strong>Prof. John Doe (EUA)</strong></p>
+
+        <!-- Player de Vídeo Provisório -->
+        <div class="video-player">
+            <p>[ O Vídeo da Aula Ficará Aqui ]</p>
+        </div>
+
+        <!-- Barra de Ações (Atividades e Tradução) -->
+        <div class="actions-bar">
+            <!-- Botão para Baixar Atividades -->
+            <a href="sua-atividade.pdf" download class="btn-download">📄 Baixar Atividade (PDF)</a>
+            
+            <!-- Seletor de Idioma para Tradução -->
+            <div>
+                <label for="idioma">Traduzir para: </label>
+                <select id="idioma">
+                    <option value="pt">Português</option>
+                    <option value="es">Español</option>
+                    <option value="en">English</option>
+                </select>
+                <button onclick="traduzirConteudo()">Traduzir Aula</button>
+            </div>
+        </div>
+
+        <!-- Área de Legendas/Transcrição Traduzida -->
+        <div class="translation-zone">
+            <h4>Transcrição Traduzida:</h4>
+            <p id="texto-aula">Hello class! Today we are going to learn the basics of AI.</p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Simples para demonstração
+        function traduzirConteudo() {
+            const idiomaSelecionado = document.getElementById('idioma').value;
+            const texto = document.getElementById('texto-aula');
+            
+            if(idiomaSelecionado === 'pt') {
+                texto.innerText = "Olá classe! Hoje nós vamos aprender o básico de IA.";
+            } else if(idiomaSelecionado === 'es') {
+                texto.innerText = "¡Hola clase! Hoy vamos a aprender los conceptos básicos de IA.";
+            } else {
+                texto.innerText = "Hello class! Today we are going to learn the basics of AI.";
+            }
+        }
+    </script>
+</body>
+</html>
