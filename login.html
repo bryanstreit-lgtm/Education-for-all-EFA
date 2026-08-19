@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EducaMundo - Entrar ou Cadastrar</title>
+    <!-- Adicionando a biblioteca oficial do Supabase para fazer a conexão -->
+    <script src="https://jsdelivr.net"></script>
     <style>
         /* CSS para o Layout */
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
@@ -15,7 +17,7 @@
         /* Formulários e Inputs */
         .form-group { text-align: left; margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: #565656; font-weight: bold; }
-        input[type="text"], input[type="email"], input[type="password"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
+        input[type="text"], input[type="email"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
         
         /* Botões */
         .btn-submit { background-color: #007bff; color: white; border: none; width: 100%; padding: 12px; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
@@ -32,7 +34,7 @@
     <div class="login-container">
         <div class="logo">🌍 EducaMundo</div>
         
-        <!-- Formulário de Cadastro (Simulado) -->
+        <!-- Formulário de Cadastro Real -->
         <div id="cadastro-box">
             <h3>Criar Nova Conta</h3>
             <form onsubmit="registrarUsuario(event)">
@@ -47,45 +49,51 @@
                 <div class="form-group">
                     <label for="reg-tipo">Você é:</label>
                     <select id="reg-tipo">
-                        <option value="aluno">Aluno (Quero aprender)</option>
-                        <option value="professor">Professor (Quero ensinar)</option>
+                        <option value="Aluno">Aluno (Quero aprender)</option>
+                        <option value="Professor">Professor (Quero ensinar)</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="reg-idioma">Seu Idioma Nativo:</label>
                     <select id="reg-idioma">
-                        <option value="pt">Português (Brasil)</option>
-                        <option value="en">English (EUA/UK)</option>
-                        <option value="es">Español</option>
-                        <option value="fr">Français</option>
+                        <option value="Português (Brasil)">Português (Brasil)</option>
+                        <option value="English (EUA/UK)">English (EUA/UK)</option>
+                        <option value="Español">Español</option>
+                        <option value="Français">Français</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-submit">Cadastrar e Entrar</button>
+                <button type="submit" class="btn-submit">Cadastrar de Verdade</button>
             </form>
             <div class="toggle-form">
                 Já tem uma conta? <a href="#" onclick="alternarAbas()">Entrar aqui</a>
             </div>
         </div>
 
-        <!-- Formulário de Login (Escondido por padrão) -->
+        <!-- Formulário de Login Real -->
         <div id="login-box" style="display: none;">
             <h3>Entrar na Plataforma</h3>
             <form onsubmit="logarUsuario(event)">
                 <div class="form-group">
-                    <label for="log-email">E-mail</label>
+                    <label for="log-email">E-mail Cadastrado</label>
                     <input type="email" id="log-email" required placeholder="seuemail@exemplo.com">
                 </div>
                 <button type="submit" class="btn-submit">Entrar</button>
             </form>
             <div class="toggle-form">
-                Não tem conta? <a href="#" onclick="alternarAbas()">Cadastre-se</a>
+                Não tem conta? <a href="#" onclick="advanced_toggle()">Cadastre-se</a>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Função para alternar visualmente entre a tela de login e cadastro
+        // CONFIGURAÇÃO DO SUPABASE AJUSTADA PARA O SEU PROJETO
+        const SUPABASE_URL = "https://supabase.co"; 
+        const SUPABASE_KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
+        
+        // Inicializando o banco de dados
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
         function alternarAbas() {
             const cadastro = document.getElementById('cadastro-box');
             const login = document.getElementById('login-box');
@@ -99,16 +107,49 @@
             }
         }
 
-        // Função temporária que simula o login e joga o usuário para a Home
-        function registrarUsuario(event) {
+        // FUNÇÃO QUE SALVA OS DADOS NA SUA TABELA 'PERFIS'
+        async function registrarUsuario(event) {
             event.preventDefault();
-            alert("Conta criada com sucesso! Redirecionando...");
-            window.location.href = 'index.html';
+            
+            const nome = document.getElementById('reg-nome').value;
+            const email = document.getElementById('reg-email').value;
+            const tipo = document.getElementById('reg-tipo').value;
+            const idioma = document.getElementById('reg-idioma').value;
+
+            // Mandando pro Supabase
+            const { data, error } = await supabase
+                .from('perfis')
+                .insert([{ nome: nome, email: email, tipo: tipo, idioma: idioma }]);
+
+            if (error) {
+                alert("Erro ao cadastrar: " + error.message);
+                console.error(error);
+            } else {
+                alert("Conta salva no banco de dados com sucesso!");
+                localStorage.setItem('usuario_logado', email);
+                window.location.href = 'index.html';
+            }
         }
 
-        function logarUsuario(event) {
+        // FUNÇÃO QUE PROCURA O SEU EMAIL NA TABELA PARA FAZER LOGIN
+        async function logarUsuario(event) {
             event.preventDefault();
-            window.location.href = 'index.html';
+            const email = document.getElementById('log-email').value;
+
+            const { data, error } = await supabase
+                .from('perfis')
+                .select('*')
+                .eq('email', email);
+
+            if (error) {
+                alert("Erro ao entrar: " + error.message);
+            } else if (!data || data.length === 0) {
+                alert("E-mail não encontrado! Cadastre-se primeiro.");
+            } else {
+                alert("Bem-vindo de volta!");
+                localStorage.setItem('usuario_logado', email);
+                window.location.href = 'index.html';
+            }
         }
     </script>
 </body>
