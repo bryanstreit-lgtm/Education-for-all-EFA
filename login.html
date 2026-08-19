@@ -4,29 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EducaMundo - Entrar ou Cadastrar</title>
-    <!-- Adicionando a biblioteca oficial do Supabase para fazer a conexão -->
-    <script src="https://jsdelivr.net"></script>
+    <!-- Servidor alternativo e mais estável para carregar o Supabase -->
+    <script src="https://unpkg.com"></script>
     <style>
-        /* CSS para o Layout */
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-        
         .logo { color: #007bff; font-size: 28px; margin-bottom: 20px; font-weight: bold; }
         h3 { margin-bottom: 20px; color: #333; }
-        
-        /* Formulários e Inputs */
-        .form-group { text-align: left; margin-bottom: 15px; }
+        .form-group { text-align: text; text-align: left; margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: #565656; font-weight: bold; }
         input[type="text"], input[type="email"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
-        
-        /* Botões */
         .btn-submit { background-color: #007bff; color: white; border: none; width: 100%; padding: 12px; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-submit:hover { background-color: #0056b3; }
-        
-        /* Alternar entre Login e Cadastro */
         .toggle-form { margin-top: 20px; font-size: 14px; color: #666; }
         .toggle-form a { color: #007bff; text-decoration: none; font-weight: bold; }
-        .toggle-form a:hover { text-decoration: underline; }
+        .toggle-form a:hover { text-underline-position: under; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -34,7 +26,7 @@
     <div class="login-container">
         <div class="logo">🌍 EducaMundo</div>
         
-        <!-- Formulário de Cadastro Real -->
+        <!-- Formulário de Cadastro -->
         <div id="cadastro-box">
             <h3>Criar Nova Conta</h3>
             <form onsubmit="registrarUsuario(event)">
@@ -69,7 +61,7 @@
             </div>
         </div>
 
-        <!-- Formulário de Login Real -->
+        <!-- Formulário de Login -->
         <div id="login-box" style="display: none;">
             <h3>Entrar na Plataforma</h3>
             <form onsubmit="logarUsuario(event)">
@@ -80,24 +72,22 @@
                 <button type="submit" class="btn-submit">Entrar</button>
             </form>
             <div class="toggle-form">
-                Não tem conta? <a href="#" onclick="advanced_toggle()">Cadastre-se</a>
+                Não tem conta? <a href="#" onclick="alternarAbas()">Cadastre-se</a>
             </div>
         </div>
-
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO SUPABASE AJUSTADA PARA O SEU PROJETO
-        const SUPABASE_URL = "https://supabase.co"; 
-        const SUPABASE_KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
+        // CONFIGURAÇÃO DO BANCO DE DADOS
+        const _URL = "https://supabase.co"; 
+        const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
         
-        // Inicializando o banco de dados
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Iniciando o cliente corretamente
+        const dbClient = supabase.createClient(_URL, _KEY);
 
         function alternarAbas() {
             const cadastro = document.getElementById('cadastro-box');
             const login = document.getElementById('login-box');
-            
             if (cadastro.style.display === 'none') {
                 cadastro.style.display = 'block';
                 login.style.display = 'none';
@@ -107,7 +97,7 @@
             }
         }
 
-        // FUNÇÃO QUE SALVA OS DADOS NA SUA TABELA 'PERFIS'
+        // FUNÇÃO DE CADASTRO REAL
         async function registrarUsuario(event) {
             event.preventDefault();
             
@@ -116,8 +106,7 @@
             const tipo = document.getElementById('reg-tipo').value;
             const idioma = document.getElementById('reg-idioma').value;
 
-            // Mandando pro Supabase
-            const { data, error } = await supabase
+            const { data, error } = await dbClient
                 .from('perfis')
                 .insert([{ nome: nome, email: email, tipo: tipo, idioma: idioma }]);
 
@@ -131,12 +120,12 @@
             }
         }
 
-        // FUNÇÃO QUE PROCURA O SEU EMAIL NA TABELA PARA FAZER LOGIN
+        // FUNÇÃO DE LOGIN REAL
         async function logarUsuario(event) {
             event.preventDefault();
             const email = document.getElementById('log-email').value;
 
-            const { data, error } = await supabase
+            const { data, error } = await dbClient
                 .from('perfis')
                 .select('*')
                 .eq('email', email);
