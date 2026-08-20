@@ -76,7 +76,7 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO DIRETA DA API DO SEU PROJETO
+        // Links corrigidos apontando direto para a sua tabela 'perfis'
         const _URL = "https://supabase.co"; 
         const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
 
@@ -92,7 +92,7 @@
             }
         }
 
-        // FUNÇÃO DE CADASTRO OTIMIZADA PARA EVITAR ERROS DE CORS
+        // Função de Cadastro Direta e Corrigida
         async function registrarUsuario(event) {
             event.preventDefault();
             
@@ -102,7 +102,6 @@
             const idioma = document.getElementById('reg-idioma').value;
 
             try {
-                // Enviando pela URL da API direta para salvar sem travar no CORS
                 const response = await fetch(`${_URL}?apikey=${_KEY}`, {
                     method: 'POST',
                     headers: {
@@ -112,21 +111,21 @@
                     body: JSON.stringify([{ nome: nome, email: email, tipo: tipo, idioma: idioma }])
                 });
 
-                // Como usamos return=minimal, o status 201 significa sucesso absoluto!
                 if (response.status === 201 || response.ok) {
                     alert("Conta salva no banco de dados com sucesso!");
                     localStorage.setItem('usuario_logado', email);
                     window.location.href = 'index.html';
                 } else {
-                    alert("O banco recusou o cadastro. Certifique-se de que a tabela se chama 'perfis'.");
+                    const errData = await response.json();
+                    alert("O banco recusou o cadastro: " + errData.message);
                 }
             } catch (error) {
-                alert("Erro ao enviar dados. Tente atualizar a página com Ctrl + F5!");
+                alert("Erro ao enviar dados. Tente recarregar o site.");
                 console.error(error);
             }
         }
 
-        // FUNÇÃO DE LOGIN OTIMIZADA
+        // Função de Login Direta e Corrigida
         async function logarUsuario(event) {
             event.preventDefault();
             const email = document.getElementById('log-email').value;
@@ -148,7 +147,7 @@
                         window.location.href = 'index.html';
                     }
                 } else {
-                    alert("Erro ao entrar.");
+                    alert("Erro ao tentar entrar.");
                 }
             } catch (error) {
                 alert("Erro na conexão ao tentar entrar.");
