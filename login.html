@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EducaMundo - Entrar ou Cadastrar</title>
+    <!-- Carregando a biblioteca oficial do Supabase -->
+    <script src="https://jsdelivr.net"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
@@ -52,7 +54,7 @@
                         <option value="Français">Français</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-submit">Testar Cadastro</button>
+                <button type="submit" class="btn-submit">Testar Cadastro Real</button>
             </form>
             <div class="toggle-form">
                 Já tem uma conta? <a href="#" onclick="alternarAbas()">Entrar aqui</a>
@@ -76,8 +78,20 @@
     </div>
 
     <script>
+        // Links reais e chaves do seu banco do Supabase
         const _URL = "https://supabase.co"; 
         const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
+        
+        let client = null;
+
+        function ligarBanco() {
+            if (window.supabase && !client) {
+                client = window.supabase.createClient(_URL, _KEY);
+                console.log("Banco de dados conectado via biblioteca oficial!");
+            }
+        }
+
+        window.addEventListener('load', ligarBanco);
 
         function alternarAbas() {
             const cadastro = document.getElementById('cadastro-box');
@@ -91,63 +105,51 @@
             }
         }
 
-        // FUNÇÃO COM RASTREADOR DE ERROS DETALHADO
         async function registrarUsuario(event) {
             event.preventDefault();
+            ligarBanco();
+            
+            if (!client) {
+                alert("O banco ainda está carregando. Tente novamente em 1 segundo.");
+                return;
+            }
             
             const nome = document.getElementById('reg-nome').value;
             const email = document.getElementById('reg-email').value;
             const tipo = document.getElementById('reg-tipo').value;
             const idioma = document.getElementById('reg-idioma').value;
 
-            alert("Iniciando tentativa de envio ao banco...");
+            // Enviando de forma nativa e profissional pela biblioteca oficial
+            const { data, error } = await client
+                .from('perfis')
+                .insert([{ nome: nome, email: email, tipo: tipo, idioma: idioma }]);
 
-            try {
-                const response = await fetch(`${_URL}?apikey=${_KEY}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=minimal'
-                    },
-                    body: JSON.stringify([{ nome: nome, email: email, tipo: tipo, idioma: idioma }])
-                });
-
-                alert("Resposta do servidor recebida! Código de Status: " + response.status);
-
-                if (response.status === 201 || response.ok) {
-                    alert("Sucesso absoluto! Gravado no banco.");
-                    localStorage.setItem('usuario_logado', email);
-                    window.location.href = 'index.html';
-                } else {
-                    const textError = await response.text();
-                    alert("O banco recusou. Mensagem interna do erro:\n" + textError);
-                }
-            } catch (error) {
-                alert("Falha crítica capturada pelo código:\n" + error.message + "\n\nIsso indica bloqueio local no navegador.");
+            if (error) {
+                alert("O banco recusou o cadastro: " + error.message);
                 console.error(error);
+            } else {
+                alert("CONTA SALVA NO BANCO DE DADOS COM SUCESSO!");
+                localStorage.setItem('usuario_logado', email);
+                window.location.href = 'index.html';
             }
         }
 
         async function logarUsuario(event) {
             event.preventDefault();
+            ligarBanco();
+            if (!client) return;
+
             const email = document.getElementById('log-email').value;
-            try {
-                const response = await fetch(`${_URL}?email=eq.${email}&apikey=${_KEY}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                });
-                const data = await response.json();
-                if (response.ok) {
-                    if (data.length === 0) {
-                        alert("E-mail não encontrado!");
-                    } else {
-                        alert("Bem-vindo de volta!");
-                        localStorage.setItem('usuario_logado', email);
-                        window.location.href = 'index.html';
-                    }
-                }
-            } catch (error) {
+            const { data, error } = await client.from('perfis').select('*').eq('email', email);
+
+            if (error) {
                 alert("Erro ao logar.");
+            } else if (!data || data.length === 0) {
+                alert("E-mail não encontrado!");
+            } else {
+                alert("Bem-vindo de volta!");
+                localStorage.setItem('usuario_logado', email);
+                window.location.href = 'index.html';
             }
         }
     </script>
