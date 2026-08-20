@@ -52,7 +52,7 @@
                         <option value="Français">Français</option>
                     </select>
                 </div>
-                <button type="submit" class="btn-submit">Cadastrar de Verdade</button>
+                <button type="submit" class="btn-submit">Testar Cadastro</button>
             </form>
             <div class="toggle-form">
                 Já tem uma conta? <a href="#" onclick="alternarAbas()">Entrar aqui</a>
@@ -76,7 +76,6 @@
     </div>
 
     <script>
-        // Links corrigidos apontando direto para a sua tabela 'perfis'
         const _URL = "https://supabase.co"; 
         const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
 
@@ -92,7 +91,7 @@
             }
         }
 
-        // Função de Cadastro Direta e Corrigida
+        // FUNÇÃO COM RASTREADOR DE ERROS DETALHADO
         async function registrarUsuario(event) {
             event.preventDefault();
             
@@ -100,6 +99,8 @@
             const email = document.getElementById('reg-email').value;
             const tipo = document.getElementById('reg-tipo').value;
             const idioma = document.getElementById('reg-idioma').value;
+
+            alert("Iniciando tentativa de envio ao banco...");
 
             try {
                 const response = await fetch(`${_URL}?apikey=${_KEY}`, {
@@ -111,46 +112,42 @@
                     body: JSON.stringify([{ nome: nome, email: email, tipo: tipo, idioma: idioma }])
                 });
 
+                alert("Resposta do servidor recebida! Código de Status: " + response.status);
+
                 if (response.status === 201 || response.ok) {
-                    alert("Conta salva no banco de dados com sucesso!");
+                    alert("Sucesso absoluto! Gravado no banco.");
                     localStorage.setItem('usuario_logado', email);
                     window.location.href = 'index.html';
                 } else {
-                    const errData = await response.json();
-                    alert("O banco recusou o cadastro: " + errData.message);
+                    const textError = await response.text();
+                    alert("O banco recusou. Mensagem interna do erro:\n" + textError);
                 }
             } catch (error) {
-                alert("Erro ao enviar dados. Tente recarregar o site.");
+                alert("Falha crítica capturada pelo código:\n" + error.message + "\n\nIsso indica bloqueio local no navegador.");
                 console.error(error);
             }
         }
 
-        // Função de Login Direta e Corrigida
         async function logarUsuario(event) {
             event.preventDefault();
             const email = document.getElementById('log-email').value;
-
             try {
                 const response = await fetch(`${_URL}?email=eq.${email}&apikey=${_KEY}`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 });
-
                 const data = await response.json();
-
                 if (response.ok) {
                     if (data.length === 0) {
-                        alert("E-mail não encontrado! Cadastre-se primeiro.");
+                        alert("E-mail não encontrado!");
                     } else {
                         alert("Bem-vindo de volta!");
                         localStorage.setItem('usuario_logado', email);
                         window.location.href = 'index.html';
                     }
-                } else {
-                    alert("Erro ao tentar entrar.");
                 }
             } catch (error) {
-                alert("Erro na conexão ao tentar entrar.");
+                alert("Erro ao logar.");
             }
         }
     </script>
