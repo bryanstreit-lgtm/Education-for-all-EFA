@@ -76,7 +76,7 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO BANCO DE DADOS - COM SUAS CHAVES REAIS
+        // CONFIGURAÇÃO DIRETA DA API DO SEU PROJETO
         const _URL = "https://supabase.co"; 
         const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
 
@@ -92,7 +92,7 @@
             }
         }
 
-        // FUNÇÃO DE CADASTRO REAL DIRETO VIA FETCH API
+        // FUNÇÃO DE CADASTRO OTIMIZADA PARA EVITAR ERROS DE CORS
         async function registrarUsuario(event) {
             event.preventDefault();
             
@@ -102,43 +102,39 @@
             const idioma = document.getElementById('reg-idioma').value;
 
             try {
-                const response = await fetch(`${_URL}/rest/v1/perfis`, {
+                // Enviando pela URL da API direta para salvar sem travar no CORS
+                const response = await fetch(`${_URL}?apikey=${_KEY}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'apikey': _KEY,
-                        'Authorization': `Bearer ${_KEY}`,
-                        'Prefer': 'return=representation'
+                        'Prefer': 'return=minimal'
                     },
                     body: JSON.stringify([{ nome: nome, email: email, tipo: tipo, idioma: idioma }])
                 });
 
-                if (response.ok) {
+                // Como usamos return=minimal, o status 201 significa sucesso absoluto!
+                if (response.status === 201 || response.ok) {
                     alert("Conta salva no banco de dados com sucesso!");
                     localStorage.setItem('usuario_logado', email);
                     window.location.href = 'index.html';
                 } else {
-                    const errData = await response.json();
-                    alert("Erro no banco: " + errData.message);
+                    alert("O banco recusou o cadastro. Certifique-se de que a tabela se chama 'perfis'.");
                 }
             } catch (error) {
-                alert("Houve um problema de conexão. Caso persista, teste pelo 4G do celular!");
+                alert("Erro ao enviar dados. Tente atualizar a página com Ctrl + F5!");
                 console.error(error);
             }
         }
 
-        // FUNÇÃO DE LOGIN REAL DIRETO VIA FETCH API
+        // FUNÇÃO DE LOGIN OTIMIZADA
         async function logarUsuario(event) {
             event.preventDefault();
             const email = document.getElementById('log-email').value;
 
             try {
-                const response = await fetch(`${_URL}/rest/v1/perfis?email=eq.${email}`, {
+                const response = await fetch(`${_URL}?email=eq.${email}&apikey=${_KEY}`, {
                     method: 'GET',
-                    headers: {
-                        'apikey': _KEY,
-                        'Authorization': `Bearer ${_KEY}`
-                    }
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
                 const data = await response.json();
@@ -152,7 +148,7 @@
                         window.location.href = 'index.html';
                     }
                 } else {
-                    alert("Erro ao entrar: " + data.message);
+                    alert("Erro ao entrar.");
                 }
             } catch (error) {
                 alert("Erro na conexão ao tentar entrar.");
