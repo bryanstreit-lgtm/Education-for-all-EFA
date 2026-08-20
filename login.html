@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EducaMundo - Entrar ou Cadastrar</title>
-    <!-- Servidor alternativo e mais estável para carregar o Supabase -->
+    <!-- Carregando a biblioteca do Supabase direto no cabeçalho -->
     <script src="https://unpkg.com"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
         .logo { color: #007bff; font-size: 28px; margin-bottom: 20px; font-weight: bold; }
         h3 { margin-bottom: 20px; color: #333; }
-        .form-group { text-align: text; text-align: left; margin-bottom: 15px; }
+        .form-group { text-align: left; margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: #565656; font-weight: bold; }
         input[type="text"], input[type="email"], select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; box-sizing: border-box; }
         .btn-submit { background-color: #007bff; color: white; border: none; width: 100%; padding: 12px; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .btn-submit:hover { background-color: #0056b3; }
         .toggle-form { margin-top: 20px; font-size: 14px; color: #666; }
         .toggle-form a { color: #007bff; text-decoration: none; font-weight: bold; }
-        .toggle-form a:hover { text-underline-position: under; text-decoration: underline; }
+        .toggle-form a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -82,8 +82,17 @@
         const _URL = "https://supabase.co"; 
         const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
         
-        // Iniciando o cliente corretamente
-        const dbClient = supabase.createClient(_URL, _KEY);
+        let dbClient = null;
+
+        // Esse comando garante que o código só vai ligar o banco depois que o navegador carregar tudo na tela
+        window.addEventListener('load', () => {
+            if (typeof supabase !== 'undefined') {
+                dbClient = supabase.createClient(_URL, _KEY);
+                console.log("Supabase conectado com sucesso!");
+            } else {
+                alert("Erro grave: O navegador não conseguiu carregar o script do Supabase. Verifique sua conexão de internet.");
+            }
+        });
 
         function alternarAbas() {
             const cadastro = document.getElementById('cadastro-box');
@@ -100,6 +109,11 @@
         // FUNÇÃO DE CADASTRO REAL
         async function registrarUsuario(event) {
             event.preventDefault();
+            
+            if (!dbClient) {
+                alert("O banco de dados ainda não terminou de carregar. Aguarde um segundo e tente novamente.");
+                return;
+            }
             
             const nome = document.getElementById('reg-nome').value;
             const email = document.getElementById('reg-email').value;
@@ -123,6 +137,12 @@
         // FUNÇÃO DE LOGIN REAL
         async function logarUsuario(event) {
             event.preventDefault();
+            
+            if (!dbClient) {
+                alert("O banco de dados ainda não terminou de carregar.");
+                return;
+            }
+
             const email = document.getElementById('log-email').value;
 
             const { data, error } = await dbClient
