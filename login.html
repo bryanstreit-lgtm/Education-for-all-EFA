@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EducaMundo - Entrar ou Cadastrar</title>
-    <!-- Link direto e atualizado para carregar o Supabase da internet -->
-    <script src="https://unpkg.com"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
@@ -78,21 +76,9 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO BANCO DE DADOS - TOTALMENTE PRONTA
+        // CONFIGURAÇÃO DO BANCO DE DADOS - COM SUAS CHAVES REAIS
         const _URL = "https://supabase.co"; 
         const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
-        
-        let dbClient = null;
-
-        // Tenta ligar com o banco assim que a página abre
-        window.addEventListener('load', () => {
-            if (typeof supabase !== 'undefined') {
-                dbClient = supabase.createClient(_URL, _KEY);
-                console.log("Supabase conectado com sucesso!");
-            } else {
-                console.log("Aguardando carregamento da biblioteca...");
-            }
-        });
 
         function alternarAbas() {
             const cadastro = document.getElementById('cadastro-box');
@@ -106,64 +92,70 @@
             }
         }
 
-        // FUNÇÃO DE CADASTRO REAL
+        // FUNÇÃO DE CADASTRO REAL DIRETO VIA FETCH API
         async function registrarUsuario(event) {
             event.preventDefault();
-            
-            // Se o dbClient ainda não ligou, tenta ligar agora antes de enviar
-            if (!dbClient && typeof supabase !== 'undefined') {
-                dbClient = supabase.createClient(_URL, _KEY);
-            }
-
-            if (!dbClient) {
-                alert("O banco de dados está demorando para responder. Verifique sua conexão e tente novamente.");
-                return;
-            }
             
             const nome = document.getElementById('reg-nome').value;
             const email = document.getElementById('reg-email').value;
             const tipo = document.getElementById('reg-tipo').value;
             const idioma = document.getElementById('reg-idioma').value;
 
-            const { data, error } = await dbClient
-                .from('perfis')
-                .insert([{ nome: nome, email: email, tipo: tipo, idioma: idioma }]);
+            try {
+                const response = await fetch(`${_URL}/rest/v1/perfis`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': _KEY,
+                        'Authorization': `Bearer ${_KEY}`,
+                        'Prefer': 'return=representation'
+                    },
+                    body: JSON.stringify([{ nome: nome, email: email, tipo: tipo, idioma: idioma }])
+                });
 
-            if (error) {
-                alert("Erro ao cadastrar: " + error.message);
+                if (response.ok) {
+                    alert("Conta salva no banco de dados com sucesso!");
+                    localStorage.setItem('usuario_logado', email);
+                    window.location.href = 'index.html';
+                } else {
+                    const errData = await response.json();
+                    alert("Erro no banco: " + errData.message);
+                }
+            } catch (error) {
+                alert("Houve um problema de conexão. Caso persista, teste pelo 4G do celular!");
                 console.error(error);
-            } else {
-                alert("Conta salva no banco de dados com sucesso!");
-                localStorage.setItem('usuario_logado', email);
-                window.location.href = 'index.html';
             }
         }
 
-        // FUNÇÃO DE LOGIN REAL
+        // FUNÇÃO DE LOGIN REAL DIRETO VIA FETCH API
         async function logarUsuario(event) {
             event.preventDefault();
-            
-            if (!dbClient && typeof supabase !== 'undefined') {
-                dbClient = supabase.createClient(_URL, _KEY);
-            }
-
-            if (!dbClient) return;
-
             const email = document.getElementById('log-email').value;
 
-            const { data, error } = await dbClient
-                .from('perfis')
-                .select('*')
-                .eq('email', email);
+            try {
+                const response = await fetch(`${_URL}/rest/v1/perfis?email=eq.${email}`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': _KEY,
+                        'Authorization': `Bearer ${_KEY}`
+                    }
+                });
 
-            if (error) {
-                alert("Erro ao entrar: " + error.message);
-            } else if (!data || data.length === 0) {
-                alert("E-mail não encontrado! Cadastre-se primeiro.");
-            } else {
-                alert("Bem-vindo de volta!");
-                localStorage.setItem('usuario_logado', email);
-                window.location.href = 'index.html';
+                const data = await response.json();
+
+                if (response.ok) {
+                    if (data.length === 0) {
+                        alert("E-mail não encontrado! Cadastre-se primeiro.");
+                    } else {
+                        alert("Bem-vindo de volta!");
+                        localStorage.setItem('usuario_logado', email);
+                        window.location.href = 'index.html';
+                    }
+                } else {
+                    alert("Erro ao entrar: " + data.message);
+                }
+            } catch (error) {
+                alert("Erro na conexão ao tentar entrar.");
             }
         }
     </script>
