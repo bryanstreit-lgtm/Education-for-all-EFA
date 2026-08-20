@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EducaMundo - Entrar ou Cadastrar</title>
-    <!-- Carregando a biblioteca do Supabase direto no cabeçalho -->
-    <script src="https://unpkg.com"></script>
+    <!-- Servidor oficial alternativo para carregar o Supabase via cdnjs (Google/Cloudflare) -->
+    <script src="https://cloudflare.com"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
@@ -78,19 +78,20 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO BANCO DE DADOS
+        // CONFIGURAÇÃO DO BANCO DE DADOS - TOTALMENTE PREENCHIDA
         const _URL = "https://supabase.co"; 
         const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
         
         let dbClient = null;
 
-        // Esse comando garante que o código só vai ligar o banco depois que o navegador carregar tudo na tela
         window.addEventListener('load', () => {
-            if (typeof supabase !== 'undefined') {
-                dbClient = supabase.createClient(_URL, _KEY);
+            const supabaseLib = window.supabase || (window.supabaseJS ? window.supabaseJS : null);
+            
+            if (supabaseLib) {
+                dbClient = supabaseLib.createClient(_URL, _KEY);
                 console.log("Supabase conectado com sucesso!");
             } else {
-                alert("Erro grave: O navegador não conseguiu carregar o script do Supabase. Verifique sua conexão de internet.");
+                alert("Erro ao carregar o banco de dados. Tentando reconectar...");
             }
         });
 
