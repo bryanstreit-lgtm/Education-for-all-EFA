@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EducaMundo - Entrar ou Cadastrar</title>
-    <!-- Servidor oficial alternativo para carregar o Supabase via cdnjs (Google/Cloudflare) -->
-    <script src="https://cloudflare.com"></script>
+    <!-- Link direto e atualizado para carregar o Supabase da internet -->
+    <script src="https://unpkg.com"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         .login-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
@@ -78,20 +78,19 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO DO BANCO DE DADOS - TOTALMENTE PREENCHIDA
+        // CONFIGURAÇÃO DO BANCO DE DADOS - TOTALMENTE PRONTA
         const _URL = "https://supabase.co"; 
         const _KEY = "sb_publishable_a-9sdAnz6GT9S0v94zprQQ_wQ2AnoVw";
         
         let dbClient = null;
 
+        // Tenta ligar com o banco assim que a página abre
         window.addEventListener('load', () => {
-            const supabaseLib = window.supabase || (window.supabaseJS ? window.supabaseJS : null);
-            
-            if (supabaseLib) {
-                dbClient = supabaseLib.createClient(_URL, _KEY);
+            if (typeof supabase !== 'undefined') {
+                dbClient = supabase.createClient(_URL, _KEY);
                 console.log("Supabase conectado com sucesso!");
             } else {
-                alert("Erro ao carregar o banco de dados. Tentando reconectar...");
+                console.log("Aguardando carregamento da biblioteca...");
             }
         });
 
@@ -111,8 +110,13 @@
         async function registrarUsuario(event) {
             event.preventDefault();
             
+            // Se o dbClient ainda não ligou, tenta ligar agora antes de enviar
+            if (!dbClient && typeof supabase !== 'undefined') {
+                dbClient = supabase.createClient(_URL, _KEY);
+            }
+
             if (!dbClient) {
-                alert("O banco de dados ainda não terminou de carregar. Aguarde um segundo e tente novamente.");
+                alert("O banco de dados está demorando para responder. Verifique sua conexão e tente novamente.");
                 return;
             }
             
@@ -139,10 +143,11 @@
         async function logarUsuario(event) {
             event.preventDefault();
             
-            if (!dbClient) {
-                alert("O banco de dados ainda não terminou de carregar.");
-                return;
+            if (!dbClient && typeof supabase !== 'undefined') {
+                dbClient = supabase.createClient(_URL, _KEY);
             }
+
+            if (!dbClient) return;
 
             const email = document.getElementById('log-email').value;
 
