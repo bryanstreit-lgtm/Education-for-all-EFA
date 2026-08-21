@@ -1,90 +1,102 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Elementos da Interface
-    const btnTema = document.getElementById('btn-alternar-tema');
-    const btnDislexia = document.getElementById('btn-fonte-dislexia');
-    const btnFoco = document.getElementById('btn-modo-foco');
-    const btnMais = document.getElementById('btn-aumentar-texto');
-    const btnMenos = document.getElementById('btn-reduzir-texto');
+
+    const btnAlternarTema = document.getElementById('btn-alternar-tema');
+    const btnFonteDislexia = document.getElementById('btn-fonte-dislexia');
+    const btnModoFoco = document.getElementById('btn-modo-foco');
+    const btnAumentarTexto = document.getElementById('btn-aumentar-texto');
+    const btnReduzirTexto = document.getElementById('btn-reduzir-texto');
     
     const campoBusca = document.getElementById('campo-busca');
     const filtroPerfil = document.getElementById('filtro-perfil');
-    const cards = document.querySelectorAll('.card-aula');
-    const msgVazia = document.getElementById('mensagem-vazia');
+    const cardsAula = document.querySelectorAll('.card-aula');
+    const mensagemVazia = document.getElementById('mensagem-vazia');
 
-    let escalaTexto = 100;
+    // Variável de controle do zoom unificada
+    let escalaTexto = 100; 
 
-    // 1. Alternador de Tema Base
-    btnTema.addEventListener('click', () => {
-        const tema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
-        document.documentElement.setAttribute('data-tema', tema);
-    });
+    // Alternador de Tema
+    if(btnAlternarTema) {
+        btnAlternarTema.addEventListener('click', () => {
+            const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
+            document.documentElement.setAttribute('data-tema', novoTema);
+        });
+    }
 
-    // 2. Fonte para Dislexia Base
-    btnDislexia.addEventListener('click', () => {
-        const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
-        if (!ativo) {
-            document.documentElement.setAttribute('data-fonte', 'dislexia');
-            btnDislexia.setAttribute('aria-pressed', 'true');
-        } else {
-            document.documentElement.removeAttribute('data-fonte');
-            btnDislexia.setAttribute('aria-pressed', 'false');
-        }
-    });
+    // Fonte Dislexia
+    if(btnFonteDislexia) {
+        btnFonteDislexia.addEventListener('click', () => {
+            const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
+            if (!ativo) {
+                document.documentElement.setAttribute('data-fonte', 'dislexia');
+                btnFonteDislexia.setAttribute('aria-pressed', 'true');
+            } else {
+                document.documentElement.removeAttribute('data-fonte');
+                btnFonteDislexia.setAttribute('aria-pressed', 'false');
+            }
+        });
+    }
 
-    // 3. Modo Foco Base
-    btnFoco.addEventListener('click', () => {
-        const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
-        if (!ativo) {
-            document.body.setAttribute('data-modo-foco', 'ativo');
-            btnFoco.setAttribute('aria-pressed', 'true');
-        } else {
-            document.body.removeAttribute('data-modo-foco');
-            btnFoco.setAttribute('aria-pressed', 'false');
-        }
-    });
+    // Modo Foco
+    if(btnModoFoco) {
+        btnModoFoco.addEventListener('click', () => {
+            const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
+            if (!ativo) {
+                document.body.setAttribute('data-modo-foco', 'ativo');
+                btnFoco.setAttribute('aria-pressed', 'true');
+            } else {
+                document.body.removeAttribute('data-modo-foco');
+                btnFoco.setAttribute('aria-pressed', 'false');
+            }
+        });
+    }
 
-    // 4. Redimensionamento de Texto Seguro
-    btnMais.addEventListener('click', () => {
-        if (escalaTexto < 130) {
-            escalaTexto += 10;
-            document.documentElement.style.fontSize = scaleTexto + '%';
-        }
-    });
-    btnMenos.addEventListener('click', () => {
-        if (escalaTexto > 90) {
-            escalaTexto -= 10;
-            document.documentElement.style.fontSize = scaleTexto + '%';
-        }
-    });
+    // --- CORREÇÃO AQUI: O zoom agora responde perfeitamente ---
+    if(btnAumentarTexto) {
+        btnAumentarTexto.addEventListener('click', () => {
+            if (escalaTexto < 140) {
+                escalaTexto += 10;
+                document.documentElement.style.fontSize = `${escalaTexto}%`;
+            }
+        });
+    }
 
-    // 5. Mecanismo de Busca Robusto e Direto (Tudo em Letras Minúsculas)
-    const executarFiltro = () => {
-        const busca = campoBusca.value.toLowerCase().trim();
-        const perfil = filtroPerfil.value;
-        let encontrados = 0;
+    if(btnReduzirTexto) {
+        btnReduzirTexto.addEventListener('click', () => {
+            if (escalaTexto > 90) {
+                escalaTexto -= 10;
+                document.documentElement.style.fontSize = `${escalaTexto}%`;
+            }
+        });
+    }
 
-        cards.forEach(card => {
-            const tituloAttr = card.getAttribute('data-titulo') || '';
-            const perfisAttr = card.getAttribute('data-perfis') || '';
+    // Filtros de busca
+    const filtrarAulas = () => {
+        const termoBusca = campoBusca.value.toLowerCase().trim();
+        const perfilSelecionado = filtroPerfil.value;
+        let visiveis = 0;
 
-            const correspondeBusca = busca === '' || tituloAttr.includes(busca);
-            const correspondePerfil = perfil === 'todos' || perfisAttr.includes(perfil);
+        cardsAula.forEach(card => {
+            const titulo = card.getAttribute('data-titulo') || '';
+            const perfisCard = (card.getAttribute('data-perfis') || '').split(' ');
+            
+            const bateBusca = termoBusca === '' || titulo.indexOf(termoBusca) !== -1;
+            const batePerfil = perfilSelecionado === 'todos' || perfisCard.includes(perfilSelecionado);
 
-            if (correspondeBusca && correspondePerfil) {
+            if (bateBusca && batePerfil) {
                 card.style.display = 'flex';
-                encontrados++;
+                visiveis++;
             } else {
                 card.style.display = 'none';
             }
         });
 
-        if (encontrados === 0) {
-            msgVazia.className = 'mensagem-vazia'; // Mostra o aviso se nada for achado
+        if (visiveis === 0) {
+            mensagemVazia.classList.remove('sr-only');
         } else {
-            msgVazia.className = 'sr-only'; // Esconde o aviso se houver conteúdo
+            mensagemVazia.classList.add('sr-only');
         }
     };
 
-    campoBusca.addEventListener('input', executarFiltro);
-    filtroPerfil.addEventListener('change', executarFiltro);
+    if(campoBusca) campoBusca.addEventListener('input', filtrarAulas);
+    if(filtroPerfil) filtroPerfil.addEventListener('change', filtrarAulas);
 });

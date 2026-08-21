@@ -1,30 +1,33 @@
 :root {
-    /* Cores padrão do tema claro (Alto contraste seguro) */
-    --fundo: #f9f9f9;
-    --fundo-card: #ffffff;
-    --texto: #111111;
-    --texto-secundario: #444444;
-    --link-cor: #005a9c;
-    --borda: #bbbbbb;
-    --fonte: Arial, Helvetica, sans-serif;
-    --tamanho: 100%;
+    --cor-fundo-principal: #fcfcfc;
+    --cor-fundo-card: #ffffff;
+    --cor-texto-principal: #1a1a1a;
+    --cor-texto-secundario: #454545;
+    --cor-primaria: #005a9c;
+    --cor-primaria-hover: #004070;
+    --cor-borda: #ccc;
+    --cor-acessibilidade-fundo: #f0f0f0;
+    --fonte-familia: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --tamanho-base: 100%;
+    --linha-altura: 1.6;
 }
 
 [data-tema="escuro"] {
-    /* Cores padrão do tema escuro */
-    --fundo: #121212;
-    --fundo-card: #1e1e1e;
-    --texto: #f5f5f5;
-    --texto-secundario: #cccccc;
-    --link-cor: #64b5f6;
-    --borda: #444444;
+    --cor-fundo-principal: #121212;
+    --cor-fundo-card: #1e1e1e;
+    --cor-texto-principal: #f5f5f5;
+    --cor-texto-secundario: #dcdcdc;
+    --cor-primaria: #4fa8ff;
+    --cor-primaria-hover: #82c0ff;
+    --cor-borda: #444;
+    --cor-acessibilidade-fundo: #2a2a2a;
 }
 
-[data-fonte="dislexia"] {
-    /* Simplificação para dislexia sem fontes externas complexas */
-    --fonte-familia: 'Comic Sans MS', sans-serif;
-    word-spacing: 0.15em;
-    letter-spacing: 0.05em;
+/* CORREÇÃO AQUI: Altera visualmente o tipo da letra e o peso para o perfil disléxico */
+[data-fonte="dislexia"], [data-fonte="dislexia"] * {
+    font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', 'Chalkboard SE', cursive, sans-serif !important;
+    word-spacing: 0.18em !important;
+    letter-spacing: 0.06em !important;
 }
 
 * {
@@ -34,128 +37,241 @@
 }
 
 html {
-    font-size: var(--tamanho);
-    font-family: var(--fonte);
-    line-height: 1.6;
+    font-size: var(--tamanho-base);
+    font-family: var(--fonte-familia);
+    line-height: var(--linha-altura);
+    scroll-behavior: smooth;
 }
 
 body {
-    background-color: var(--fundo);
-    color: var(--texto);
+    background-color: var(--cor-fundo-principal);
+    color: var(--cor-texto-principal);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+*:focus-visible {
+    outline: 4px solid var(--cor-primaria);
+    outline-offset: 4px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.sr-only-focusable:focus {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--cor-primaria);
+    color: white;
+    padding: 15px;
+    z-index: 1000;
+    border-radius: 4px;
 }
 
 .container {
     width: 90%;
-    max-width: 1000px;
-    margin: 20px auto;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.container-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-/* Barra Superior Básica */
 .barra-acessibilidade {
-    background-color: #eeeeee;
+    background-color: var(--cor-acessibilidade-fundo);
+    border-bottom: 1px solid var(--cor-borda);
     padding: 10px 0;
-    border-bottom: 1px solid var(--borda);
-}
-[data-tema="escuro"] .barra-acessibilidade {
-    background-color: #222222;
 }
 
-.barra-acessibilidade button {
-    padding: 6px 12px;
-    margin-right: 5px;
+.grupo-ajuste {
+    display: flex;
+    gap: 10px;
+}
+
+.grupo-ajuste button {
+    background-color: var(--cor-fundo-card);
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    padding: 8px 12px;
+    border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
+}
+
+.grupo-ajuste button[aria-pressed="true"] {
+    background-color: var(--cor-primaria);
+    color: #fff;
+    border-color: var(--cor-primaria);
 }
 
 .cabecalho-principal {
-    text-align: center;
+    background-color: var(--cor-fundo-card);
     padding: 20px 0;
+    border-bottom: 1px solid var(--cor-borda);
 }
 
-/* Inputs de Filtro */
-.barra-busca-container input, .barra-busca-container select {
-    padding: 10px;
-    font-size: 1rem;
-    margin-right: 10px;
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: 10px;
+.cabecalho-principal h1 a {
+    color: var(--cor-primaria);
+    text-decoration: none;
 }
 
-/* Grid sem iframes */
-.grid-aulas {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+.menu-navegacao {
+    list-style: none;
+    display: flex;
     gap: 20px;
 }
 
-.card-aula {
-    background-color: var(--fundo-card);
-    border: 1px solid var(--borda);
-    padding: 20px;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.menu-navegacao a {
+    color: var(--cor-texto-principal);
+    text-decoration: none;
+    font-weight: 600;
 }
 
-.card-aula h3 {
+.banner-introducao {
+    padding: 40px 0;
+    background-color: var(--cor-acessibilidade-fundo);
+    text-align: center;
+}
+
+.container-busca {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.container-busca input, .container-busca select {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    background-color: var(--cor-fundo-card);
+    color: var(--cor-texto-principal);
+    min-width: 250px;
+}
+
+.secao-aulas {
+    padding: 50px 0;
+}
+
+.grid-aulas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.card-aula {
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.conteudo-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.conteudo-card h3 {
     margin-bottom: 10px;
+    font-size: 1.3rem;
 }
 
 .descricao-aula {
-    color: var(--texto-secundario);
+    color: var(--cor-texto-secundario);
     margin-bottom: 15px;
-    font-size: 0.95rem;
+    flex-grow: 1;
 }
 
-.links-aula a {
-    display: block;
-    margin-top: 10px;
-    color: var(--link-cor);
+.tags-perfil {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background-color: var(--cor-acessibilidade-fundo);
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    border-radius: 4px;
     font-weight: bold;
-    text-decoration: underline;
 }
 
-.links-aula .btn-download {
-    color: var(--texto);
-    background-color: #e0e0e0;
-    padding: 8px;
+.btn-download {
+    display: block;
     text-align: center;
+    background-color: var(--cor-primaria);
+    color: white !important;
+    padding: 12px;
     text-decoration: none;
     border-radius: 4px;
-    border: 1px solid var(--borda);
-}
-[data-tema="escuro"] .links-aula .btn-download {
-    background-color: #333333;
+    font-weight: bold;
 }
 
-.sr-only {
-    display: none;
-}
-.sr-only-focusable:focus {
-    display: block;
-    background: yellow;
-    color: black;
-    padding: 10px;
+.btn-download:hover {
+    background-color: var(--cor-primaria-hover);
 }
 
-.rodape {
+.mensagem-vazia {
     text-align: center;
-    padding: 20px;
-    margin-top: 40px;
-    border-top: 1px solid var(--borda);
+    font-size: 1.2rem;
+    padding: 40px;
+    width: 100%;
 }
 
-/* Modo Foco Prático e Direto */
+.rodape-principal {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid var(--cor-borda);
+    background-color: var(--cor-fundo-card);
+    margin-top: 40px;
+}
+
+body[data-modo-foco="ativo"] .banner-introducao,
 body[data-modo-foco="ativo"] .cabecalho-principal,
-body[data-modo-foco="ativo"] .barra-busca-container,
-body[data-modo-foco="ativo"] .rodape,
-body[data-modo-foco="ativo"] .descricao-aula {
+body[data-modo-foco="ativo"] .rodape-principal,
+body[data-modo-foco="ativo"] .descricao-aula,
+body[data-modo-foco="ativo"] .tags-perfil {
     display: none !important;
+}
+
+body[data-modo-foco="ativo"] .secao-aulas {
+    padding-top: 20px;
 }
 
 body[data-modo-foco="ativo"] .grid-aulas {
     grid-template-columns: 1fr;
-    max-width: 500px;
+    max-width: 700px;
     margin: 0 auto;
 }
