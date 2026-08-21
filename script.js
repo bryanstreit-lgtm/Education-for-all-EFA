@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- SELETORES SEGUROS ---
     const btnAlternarTema = document.getElementById('btn-alternar-tema');
     const btnFonteDislexia = document.getElementById('btn-fonte-dislexia');
     const btnModoFoco = document.getElementById('btn-modo-foco');
@@ -12,62 +13,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let tamanhoFonteAtual = 100; 
 
-    // Alternar Tema Escuro/Claro
-    btnAlternarTema.addEventListener('click', () => {
-        const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
-        document.documentElement.setAttribute('data-tema', novoTema);
-        localStorage.setItem('pref-tema', novoTema);
-    });
+    // --- CORREÇÃO DOS BOTÕES SUPERIORES ---
+    if(btnAlternarTema) {
+        btnAlternarTema.addEventListener('click', () => {
+            const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
+            document.documentElement.setAttribute('data-tema', novoTema);
+        });
+    }
 
-    // Fonte Dislexia
-    btnFonteDislexia.addEventListener('click', () => {
-        const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
-        if (!ativo) {
-            document.documentElement.setAttribute('data-fonte', 'dislexia');
-            btnFonteDislexia.setAttribute('aria-pressed', 'true');
-        } else {
-            document.documentElement.removeAttribute('data-fonte');
-            btnFonteDislexia.setAttribute('aria-pressed', 'false');
-        }
-    });
+    if(btnFonteDislexia) {
+        btnFonteDislexia.addEventListener('click', () => {
+            const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
+            if (!ativo) {
+                document.documentElement.setAttribute('data-fonte', 'dislexia');
+                btnFonteDislexia.setAttribute('aria-pressed', 'true');
+            } else {
+                document.documentElement.removeAttribute('data-fonte');
+                btnFonteDislexia.setAttribute('aria-pressed', 'false');
+            }
+        });
+    }
 
-    // Modo Foco
-    btnModoFoco.addEventListener('click', () => {
-        const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
-        if (!ativo) {
-            document.body.setAttribute('data-modo-foco', 'ativo');
-            btnModoFoco.setAttribute('aria-pressed', 'true');
-        } else {
-            document.body.removeAttribute('data-modo-foco');
-            btnModoFoco.setAttribute('aria-pressed', 'false');
-        }
-    });
+    if(btnModoFoco) {
+        btnModoFoco.addEventListener('click', () => {
+            const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
+            if (!ativo) {
+                document.body.setAttribute('data-modo-foco', 'ativo');
+                btnModoFoco.setAttribute('aria-pressed', 'true');
+            } else {
+                document.body.removeAttribute('data-modo-foco');
+                btnModoFoco.setAttribute('aria-pressed', 'false');
+            }
+        });
+    }
 
-    // Fontes Tamanho
-    btnAumentarTexto.addEventListener('click', () => {
-        if (tamanhoFonteAtual < 140) {
-            tamanhoFonteAtual += 10;
-            document.documentElement.style.fontSize = `${tamanhoFonteAtual}%`;
-        }
-    });
-    btnReduzirTexto.addEventListener('click', () => {
-        if (tamanhoFonteAtual > 90) {
-            tamanhoFonteAtual -= 10;
-            document.documentElement.style.fontSize = `${tamanhoFonteAtual}%`;
-        }
-    });
+    if(btnAumentarTexto && btnReduzirTexto) {
+        btnAumentarTexto.addEventListener('click', () => {
+            if (tamanhoFonteAtual < 140) {
+                tamanhoFonteAtual += 10;
+                document.documentElement.style.fontSize = `${tamanhoFonteAtual}%`;
+            }
+        });
+        btnReduzirTexto.addEventListener('click', () => {
+            if (tamanhoFonteAtual > 90) {
+                tamanhoFonteAtual -= 10;
+                document.documentElement.style.fontSize = `${tamanhoFonteAtual}%`;
+            }
+        });
+    }
 
-    // Filtros e Mecanismo de Busca Dinâmica
+    // --- MECANISMO DE FILTRO ULTRA REVISADO ---
     const filtrarAulas = () => {
-        const termoBusca = campoBusca.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        // Validação simples e robusta de string para rodar em qualquer navegador local
+        const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;
         let visiveis = 0;
 
         cardsAula.forEach(card => {
-            const titulo = card.getAttribute('data-titulo');
-            const perfisCard = card.getAttribute('data-perfis').split(' ');
+            const titulo = card.getAttribute('data-titulo') || '';
+            const perfisCard = (card.getAttribute('data-perfis') || '').split(' ');
             
-            const bateBusca = titulo.includes(termoBusca);
+            const bateBusca = termoBusca === '' || titulo.indexOf(termoBusca) !== -1;
             const batePerfil = perfilSelecionado === 'todos' || perfisCard.includes(perfilSelecionado);
 
             if (bateBusca && batePerfil) {
@@ -85,6 +91,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    campoBusca.addEventListener('input', filtrarAulas);
-    filtroPerfil.addEventListener('change', filtrarAulas);
+    if(campoBusca) campoBusca.addEventListener('input', filtrarAulas);
+    if(filtroPerfil) filtroPerfil.addEventListener('change', filtrarAulas);
 });
