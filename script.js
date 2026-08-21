@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardsAula = document.querySelectorAll('.card-aula');
     const mensagemVazia = document.getElementById('mensagem-vazia');
 
-    // Variável de controle do zoom unificada
+    // Variável unificada para controle do zoom de tela
     let escalaTexto = 100; 
 
     // Alternador de Tema
@@ -36,21 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Modo Foco
+    // Modo Foco (CORRIGIDO: Vinculado corretamente a btnModoFoco removendo o travamento silencioso)
     if(btnModoFoco) {
         btnModoFoco.addEventListener('click', () => {
             const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
             if (!ativo) {
                 document.body.setAttribute('data-modo-foco', 'ativo');
-                btnFoco.setAttribute('aria-pressed', 'true');
+                btnModoFoco.setAttribute('aria-pressed', 'true');
             } else {
                 document.body.removeAttribute('data-modo-foco');
-                btnFoco.setAttribute('aria-pressed', 'false');
+                btnModoFoco.setAttribute('aria-pressed', 'false');
             }
         });
     }
 
-    // --- CORREÇÃO AQUI: O zoom agora responde perfeitamente ---
+    // Aumentar Texto (Desbloqueado e respondendo na hora)
     if(btnAumentarTexto) {
         btnAumentarTexto.addEventListener('click', () => {
             if (escalaTexto < 140) {
@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Diminuir Texto
     if(btnReduzirTexto) {
         btnReduzirTexto.addEventListener('click', () => {
             if (escalaTexto > 90) {
@@ -69,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Filtros de busca
+    // Filtros de busca dinâmica por strings minúsculas
     const filtrarAulas = () => {
         const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;
