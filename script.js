@@ -1,120 +1,90 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- GERADOR DE LINKS E CAPAS DO YOUTUBE ---
-    const linksVideo = document.querySelectorAll('.video-link-direto');
-    
-    linksVideo.forEach(link => {
-        const videoId = link.getAttribute('data-youtube');
-        
-        if (videoId) {
-            // Define o endereço exato do vídeo para abrir no YouTube
-            link.href = `https://youtube.com{videoId}`;
-            
-            // Puxa automaticamente a imagem de capa de alta qualidade gerada pelo YouTube
-            const urlImagemCapa = `https://youtube.com{videoId}/hqdefault.jpg`;
-            
-            // Injeta a imagem de fundo e o botão de play estilizado
-            link.innerHTML = `
-                <img src="${urlImagemCapa}" alt="Capa do vídeo do YouTube" class="capa-video">
-                <div class="botao-play-visual" aria-hidden="true">▶</div>
-            `;
-        }
-    });
-
-    // --- SELETORES DOS BOTÕES ACESSÍVEIS ---
-    const btnAlternarTema = document.getElementById('btn-alternar-tema');
-    const btnFonteDislexia = document.getElementById('btn-fonte-dislexia');
-    const btnModoFoco = document.getElementById('btn-modo-foco');
-    const btnAumentarTexto = document.getElementById('btn-aumentar-texto');
-    const btnReduzirTexto = document.getElementById('btn-reduzir-texto');
+    // Elementos da Interface
+    const btnTema = document.getElementById('btn-alternar-tema');
+    const btnDislexia = document.getElementById('btn-fonte-dislexia');
+    const btnFoco = document.getElementById('btn-modo-foco');
+    const btnMais = document.getElementById('btn-aumentar-texto');
+    const btnMenos = document.getElementById('btn-reduzir-texto');
     
     const campoBusca = document.getElementById('campo-busca');
     const filtroPerfil = document.getElementById('filtro-perfil');
-    const cardsAula = document.querySelectorAll('.card-aula');
-    const mensagemVazia = document.getElementById('mensagem-vazia');
+    const cards = document.querySelectorAll('.card-aula');
+    const msgVazia = document.getElementById('mensagem-vazia');
 
-    let tamanhoFonteAtual = 100; 
+    let escalaTexto = 100;
 
-    // Alternar Tema
-    if(btnAlternarTema) {
-        btnAlternarTema.addEventListener('click', () => {
-            const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
-            document.documentElement.setAttribute('data-tema', novoTema);
-        });
-    }
+    // 1. Alternador de Tema Base
+    btnTema.addEventListener('click', () => {
+        const tema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
+        document.documentElement.setAttribute('data-tema', tema);
+    });
 
-    // Fonte Dislexia
-    if(btnFonteDislexia) {
-        btnFonteDislexia.addEventListener('click', () => {
-            const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
-            if (!ativo) {
-                document.documentElement.setAttribute('data-fonte', 'dislexia');
-                btnFonteDislexia.setAttribute('aria-pressed', 'true');
-            } else {
-                document.documentElement.removeAttribute('data-fonte');
-                btnFonteDislexia.setAttribute('aria-pressed', 'false');
-            }
-        });
-    }
+    // 2. Fonte para Dislexia Base
+    btnDislexia.addEventListener('click', () => {
+        const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
+        if (!ativo) {
+            document.documentElement.setAttribute('data-fonte', 'dislexia');
+            btnDislexia.setAttribute('aria-pressed', 'true');
+        } else {
+            document.documentElement.removeAttribute('data-fonte');
+            btnDislexia.setAttribute('aria-pressed', 'false');
+        }
+    });
 
-    // Modo Foco
-    if(btnModoFoco) {
-        btnModoFoco.addEventListener('click', () => {
-            const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
-            if (!ativo) {
-                document.body.setAttribute('data-modo-foco', 'ativo');
-                btnModoFoco.setAttribute('aria-pressed', 'true');
-            } else {
-                document.body.removeAttribute('data-modo-foco');
-                btnModoFoco.setAttribute('aria-pressed', 'false');
-            }
-        });
-    }
+    // 3. Modo Foco Base
+    btnFoco.addEventListener('click', () => {
+        const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
+        if (!ativo) {
+            document.body.setAttribute('data-modo-foco', 'ativo');
+            btnFoco.setAttribute('aria-pressed', 'true');
+        } else {
+            document.body.removeAttribute('data-modo-foco');
+            btnFoco.setAttribute('aria-pressed', 'false');
+        }
+    });
 
-    // Tamanho do texto
-    if(btnAumentarTexto && btnReduzirTexto) {
-        btnAumentarTexto.addEventListener('click', () => {
-            if (tamanhoFonteAtual < 140) {
-                tamanhoFonteAtual += 10;
-                document.documentElement.style.fontSize = `${tamanhoFonteAtual}%`;
-            }
-        });
-        btnReduzirTexto.addEventListener('click', () => {
-            if (tamanhoFonteAtual > 90) {
-                tamanhoFonteAtual -= 10;
-                document.documentElement.style.fontSize = `${tamanhoFonteAtual}%`;
-            }
-        });
-    }
+    // 4. Redimensionamento de Texto Seguro
+    btnMais.addEventListener('click', () => {
+        if (escalaTexto < 130) {
+            escalaTexto += 10;
+            document.documentElement.style.fontSize = scaleTexto + '%';
+        }
+    });
+    btnMenos.addEventListener('click', () => {
+        if (escalaTexto > 90) {
+            escalaTexto -= 10;
+            document.documentElement.style.fontSize = scaleTexto + '%';
+        }
+    });
 
-    // Filtros de busca
-    const filtrarAulas = () => {
-        const termoBusca = campoBusca.value.toLowerCase().trim();
-        const perfilSelecionado = filtroPerfil.value;
-        let visiveis = 0;
+    // 5. Mecanismo de Busca Robusto e Direto (Tudo em Letras Minúsculas)
+    const executarFiltro = () => {
+        const busca = campoBusca.value.toLowerCase().trim();
+        const perfil = filtroPerfil.value;
+        let encontrados = 0;
 
-        cardsAula.forEach(card => {
-            const titulo = card.getAttribute('data-titulo') || '';
-            const perfisCard = (card.getAttribute('data-perfis') || '').split(' ');
-            
-            const bateBusca = termoBusca === '' || titulo.indexOf(termoBusca) !== -1;
-            const batePerfil = perfilSelecionado === 'todos' || perfisCard.includes(perfilSelecionado);
+        cards.forEach(card => {
+            const tituloAttr = card.getAttribute('data-titulo') || '';
+            const perfisAttr = card.getAttribute('data-perfis') || '';
 
-            if (bateBusca && batePerfil) {
+            const correspondeBusca = busca === '' || tituloAttr.includes(busca);
+            const correspondePerfil = perfil === 'todos' || perfisAttr.includes(perfil);
+
+            if (correspondeBusca && correspondePerfil) {
                 card.style.display = 'flex';
-                visiveis++;
+                encontrados++;
             } else {
                 card.style.display = 'none';
             }
         });
 
-        if (visiveis === 0) {
-            mensagemVazia.classList.remove('sr-only');
+        if (encontrados === 0) {
+            msgVazia.className = 'mensagem-vazia'; // Mostra o aviso se nada for achado
         } else {
-            mensagemVazia.classList.add('sr-only');
+            msgVazia.className = 'sr-only'; // Esconde o aviso se houver conteúdo
         }
     };
 
-    if(campoBusca) campoBusca.addEventListener('input', filtrarAulas);
-    if(filtroPerfil) filtroPerfil.addEventListener('change', filtrarAulas);
+    campoBusca.addEventListener('input', executarFiltro);
+    filtroPerfil.addEventListener('change', executarFiltro);
 });

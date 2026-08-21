@@ -1,45 +1,161 @@
-/* Nova estilização para links diretos com imagens de capa */
-.video-link-direto {
-    position: relative;
-    display: block;
+:root {
+    /* Cores padrão do tema claro (Alto contraste seguro) */
+    --fundo: #f9f9f9;
+    --fundo-card: #ffffff;
+    --texto: #111111;
+    --texto-secundario: #444444;
+    --link-cor: #005a9c;
+    --borda: #bbbbbb;
+    --fonte: Arial, Helvetica, sans-serif;
+    --tamanho: 100%;
+}
+
+[data-tema="escuro"] {
+    /* Cores padrão do tema escuro */
+    --fundo: #121212;
+    --fundo-card: #1e1e1e;
+    --texto: #f5f5f5;
+    --texto-secundario: #cccccc;
+    --link-cor: #64b5f6;
+    --borda: #444444;
+}
+
+[data-fonte="dislexia"] {
+    /* Simplificação para dislexia sem fontes externas complexas */
+    --fonte-familia: 'Comic Sans MS', sans-serif;
+    word-spacing: 0.15em;
+    letter-spacing: 0.05em;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: var(--tamanho);
+    font-family: var(--fonte);
+    line-height: 1.6;
+}
+
+body {
+    background-color: var(--fundo);
+    color: var(--texto);
+}
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+/* Barra Superior Básica */
+.barra-acessibilidade {
+    background-color: #eeeeee;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borda);
+}
+[data-tema="escuro"] .barra-acessibilidade {
+    background-color: #222222;
+}
+
+.barra-acessibilidade button {
+    padding: 6px 12px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.cabecalho-principal {
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Inputs de Filtro */
+.barra-busca-container input, .barra-busca-container select {
+    padding: 10px;
+    font-size: 1rem;
+    margin-right: 10px;
     width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: #000;
-    overflow: hidden;
-    text-decoration: none;
+    max-width: 300px;
+    margin-bottom: 10px;
 }
 
-.capa-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.2s ease;
+/* Grid sem iframes */
+.grid-aulas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
 }
 
-.video-link-direto:hover .capa-video {
-    transform: scale(1.03); /* Leve aproximação ao passar o mouse */
-}
-
-/* Botão de Play Centralizado sobre a capa */
-.botao-play-visual {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 90, 156, 0.9); /* Azul do tema com transparência */
-    color: white;
-    font-size: 2rem;
-    width: 60px;
-    height: 60px;
+.card-aula {
+    background-color: var(--fundo-card);
+    border: 1px solid var(--borda);
+    padding: 20px;
+    border-radius: 4px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: background-color 0.2s;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.video-link-direto:hover .botao-play-visual {
-    background-color: #004070; /* Cor escura no hover */
+.card-aula h3 {
+    margin-bottom: 10px;
+}
+
+.descricao-aula {
+    color: var(--texto-secundario);
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.links-aula a {
+    display: block;
+    margin-top: 10px;
+    color: var(--link-cor);
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.links-aula .btn-download {
+    color: var(--texto);
+    background-color: #e0e0e0;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    border: 1px solid var(--borda);
+}
+[data-tema="escuro"] .links-aula .btn-download {
+    background-color: #333333;
+}
+
+.sr-only {
+    display: none;
+}
+.sr-only-focusable:focus {
+    display: block;
+    background: yellow;
+    color: black;
+    padding: 10px;
+}
+
+.rodape {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    border-top: 1px solid var(--borda);
+}
+
+/* Modo Foco Prático e Direto */
+body[data-modo-foco="ativo"] .cabecalho-principal,
+body[data-modo-foco="ativo"] .barra-busca-container,
+body[data-modo-foco="ativo"] .rodape,
+body[data-modo-foco="ativo"] .descricao-aula {
+    display: none !important;
+}
+
+body[data-modo-foco="ativo"] .grid-aulas {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
 }

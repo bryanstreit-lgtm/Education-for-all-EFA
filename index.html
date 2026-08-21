@@ -8,141 +8,113 @@
 </head>
 <body>
 
+    <!-- Atalho para leitores de tela -->
     <a href="#conteudo-principal" class="sr-only-focusable">Pular para o conteúdo principal</a>
 
-    <!-- Barra de Acessibilidade Superior -->
+    <!-- Barra de Ferramentas Simples -->
     <div class="barra-acessibilidade" role="region" aria-label="Ferramentas de Acessibilidade">
-        <div class="container-flex">
-            <div class="grupo-ajuste">
-                <button id="btn-reduzir-texto" aria-label="Diminuir tamanho do texto">A-</button>
-                <button id="btn-aumentar-texto" aria-label="Aumentar tamanho do texto">A+</button>
-                <button id="btn-fonte-dislexia" aria-pressed="false">Fonte para Dislexia</button>
-            </div>
-            <div class="grupo-ajuste">
-                <button id="btn-modo-foco" aria-pressed="false">Modo Foco (TDAH/TEA)</button>
-                <button id="btn-alternar-tema" aria-label="Alternar entre tema claro e escuro">Alternar Tema</button>
-            </div>
+        <div class="container">
+            <button id="btn-reduzir-texto">Texto Menor (A-)</button>
+            <button id="btn-aumentar-texto">Texto Maior (A+)</button>
+            <button id="btn-fonte-dislexia" aria-pressed="false">Fonte Dislexia</button>
+            <button id="btn-modo-foco" aria-pressed="false">Modo Foco</button>
+            <button id="btn-alternar-tema">Mudar Tema (Claro/Escuro)</button>
         </div>
     </div>
 
     <header class="cabecalho-principal">
         <div class="container">
-            <div class="logo">
-                <h1><a href="index.html">EducaAcessível</a></h1>
-            </div>
-            <nav aria-label="Navegação Principal">
-                <ul class="menu-navegacao">
-                    <li><a href="index.html" aria-current="page">Início</a></li>
-                    <li><a href="#secao-aulas">Aulas</a></li>
-                </ul>
-            </nav>
+            <h1>EducaAcessível</h1>
+            <p>Plataforma simples de estudos adaptados.</p>
         </div>
     </header>
 
-    <section class="banner-introducao" aria-labelledby="titulo-boas-vindas">
+    <!-- Seção de Busca e Filtro (Apenas letras minúsculas no mecanismo) -->
+    <section class="barra-busca-container">
         <div class="container">
-            <h2 id="titulo-boas-vindas">Aprenda no seu próprio ritmo</h2>
-            <p>Conteúdos adaptados individualmente para TDAH, Autismo/TEA, Dislexia, Baixa Visão e Neurotípicos.</p>
-            
-            <div class="container-busca" role="search">
-                <label for="campo-busca" class="sr-only">Buscar aulas por título</label>
-                <input type="search" id="campo-busca" placeholder="Digite a matéria (ex: verbos, matematica)...">
-                
-                <label for="filtro-perfil" class="sr-only">Filtrar por perfil</label>
-                <select id="filtro-perfil">
-                    <option value="todos">Todos os perfis</option>
-                    <option value="tdah">Foco Adaptado (TDAH)</option>
-                    <option value="tea">Visual Limpo (Autismo/TEA)</option>
-                    <option value="dislexia">Leitura Facilitada (Dislexia)</option>
-                    <option value="baixa-visao">Alto Contraste (Baixa Visão)</option>
-                    <option value="neurotipico">Formato Tradicional (Neurotípicos)</option>
-                </select>
-            </div>
+            <input type="text" id="campo-busca" placeholder="Digite a matéria (ex: matematica, verbos)...">
+            <select id="filtro-perfil">
+                <option value="todos">Todos os perfis</option>
+                <option value="tdah">Perfil: TDAH</option>
+                <option value="tea">Perfil: Autismo / TEA</option>
+                <option value="dislexia">Perfil: Dislexia</option>
+                <option value="baixa-visao">Perfil: Baixa Visão</option>
+                <option value="neurotipico">Perfil: Neurotípicos</option>
+            </select>
         </div>
     </section>
 
-    <main id="conteudo-principal" class="conteudo-principal">
-        <section id="secao-aulas" class="secao-aulas" aria-labelledby="titulo-grid">
-            <div class="container">
-                <h2 id="titulo-grid">Aulas Disponíveis</h2>
-                
-                <div class="grid-aulas" id="grid-aulas">
-                    
-                    <!-- AULA 1 -->
-                    <article class="card-aula" data-perfis="tdah" data-titulo="top 5 dicas para melhorar aprendizado matematica basica adicao subtracao">
-                        <!-- LINK DIRETO: O JS vai colocar a imagem da capa e o link para o YouTube aqui -->
-                        <a href="#" class="video-link-direto" data-youtube="iMH4kO9LJsM" target="_blank" aria-label="Assistir vídeo de Matemática Básica diretamente no YouTube"></a>
-                        <div class="conteudo-card">
-                            <h3>Matemática Básica: Adição e Subtração</h3>
-                            <p class="descricao-aula">Explicação dinâmica e dicas estruturadas para manter o foco ativo.</p>
-                            <div class="tags-perfil"><span class="tag">TDAH</span></div>
-                        </div>
-                    </article>
-
-                    <!-- AULA 2 -->
-                    <article class="card-aula" data-perfis="neurotipico" data-titulo="matematica conjuntos numericos diagramas">
-                        <a href="#" class="video-link-direto" data-youtube="qEDnZzzks7Q" target="_blank" aria-label="Assistir vídeo de Conjuntos Numéricos diretamente no YouTube"></a>
-                        <div class="conteudo-card">
-                            <h3>Conjuntos Numéricos e Diagramas</h3>
-                            <p class="descricao-aula">Abordagem conceitual completa dos conjuntos para estudantes que preferem o formato tradicional de estudo.</p>
-                            <div class="tags-perfil"><span class="tag">Neurotípicos</span></div>
-                            <a href="atividades/conjuntos-numericos.pdf" class="btn-download" download>Baixar Apostila (PDF)</a>
-                        </div>
-                    </article>
-
-                    <!-- AULA 3 -->
-                    <article class="card-aula" data-perfis="tea" data-titulo="geografia espaco paisagem lugar">
-                        <a href="#" class="video-link-direto" data-youtube="fskgtecHtEE" target="_blank" aria-label="Assistir vídeo sobre Espaço e Paisagem diretamente no YouTube"></a>
-                        <div class="conteudo-card">
-                            <h3>Geografia: Espaço e Paisagem</h3>
-                            <p class="descricao-aula">Definições visuais e estruturadas sobre o espaço geográfico. Layout limpo e previsível.</p>
-                            <div class="tags-perfil"><span class="tag">Autismo/TEA</span></div>
-                            <a href="atividades/geografia-espaco.pdf" class="btn-download" download>Baixar Material (PDF)</a>
-                        </div>
-                    </article>
-
-                    <!-- AULA 4 -->
-                    <article class="card-aula" data-perfis="baixa-visao" data-titulo="geografia continentes mapas mundo">
-                        <a href="#" class="video-link-direto" data-youtube="oY5_i3emLxE" target="_blank" aria-label="Assistir vídeo sobre os Continentes diretamente no YouTube"></a>
-                        <div class="conteudo-card">
-                            <h3>Os Continentes do Mundo</h3>
-                            <p class="descricao-aula">Localização e divisão dos blocos continentais da Terra. Elementos adaptáveis para alto contraste nativo.</p>
-                            <div class="tags-perfil"><span class="tag">Baixa Visão</span></div>
-                            <a href="atividades/geografia-continentes.pdf" class="btn-download" download>Baixar Mapa Adaptado (PDF)</a>
-                        </div>
-                    </article>
-
-                    <!-- AULA 5 -->
-                    <article class="card-aula" data-perfis="dislexia" data-titulo="historia introducao tempo cronologico">
-                        <a href="#" class="video-link-direto" data-youtube="9p7ZPfHc9vU" target="_blank" aria-label="Assistir vídeo de Introdução à História diretamente no YouTube"></a>
-                        <div class="conteudo-card">
-                            <h3>Introdução ao Estudo da História</h3>
-                            <p class="descricao-aula">Compreensão do tempo histórico explicada de forma narrativa linear para facilitar o processamento visual.</p>
-                            <div class="tags-perfil"><span class="tag">Dislexia</span></div>
-                            <a href="atividades/introducao-historia.pdf" class="btn-download" download>Baixar Atividade (PDF)</a>
-                        </div>
-                    </article>
-
-                    <!-- AULA 6 -->
-                    <article class="card-aula" data-perfis="tdah" data-titulo="portugues verbos tempos modos">
-                        <a href="#" class="video-link-direto" data-youtube="WK6WqY3iRU8" target="_blank" aria-label="Assistir vídeo de Verbos diretamente no YouTube"></a>
-                        <div class="conteudo-card">
-                            <h3>Língua Portuguesa: O que é Verbo?</h3>
-                            <p class="descricao-aula">Entenda as ações, estados e fenômenos da natureza em blocos dinâmicos e focados.</p>
-                            <div class="tags-perfil"><span class="tag">TDAH</span></div>
-                            <a href="atividades/portugues-verbos.pdf" class="btn-download" download>Baixar Exercícios (PDF)</a>
-                        </div>
-                    </article>
-
+    <!-- Grid de Aulas Simplificado -->
+    <main id="conteudo-principal" class="container">
+        <div class="grid-aulas" id="grid-aulas">
+            
+            <!-- AULA 1 -->
+            <article class="card-aula" data-perfis="tdah" data-titulo="matematica basica adicao subtracao dicas foco">
+                <h3>Matemática Básica: Adição e Subtração</h3>
+                <p class="descricao-aula">Explicação direta e focada sobre operações essenciais, estruturada para o perfil TDAH.</p>
+                <div class="links-aula">
+                    <a href="https://youtube.com" target="_blank" class="link-youtube">Clique aqui para assistir o vídeo no YouTube</a>
+                    <a href="atividades/matematica-basica.pdf" download class="btn-download">Baixar Atividade (PDF)</a>
                 </div>
-                <p id="mensagem-vazia" class="mensagem-vazia sr-only" role="status">Nenhuma aula encontrada para os filtros selecionados.</p>
-            </div>
-        </section>
+            </article>
+
+            <!-- AULA 2 -->
+            <article class="card-aula" data-perfis="neurotipico" data-titulo="matematica conjuntos numericos diagramas teoria">
+                <h3>Conjuntos Numéricos e Diagramas</h3>
+                <p class="descricao-aula">Abordagem teórica completa e sequencial dos conjuntos matemáticos para estudantes neurotípicos.</p>
+                <div class="links-aula">
+                    <a href="https://youtube.com" target="_blank" class="link-youtube">Clique aqui para assistir o vídeo no YouTube</a>
+                    <a href="atividades/conjuntos-numericos.pdf" download class="btn-download">Baixar Apostila (PDF)</a>
+                </div>
+            </article>
+
+            <!-- AULA 3 -->
+            <article class="card-aula" data-perfis="tea" data-titulo="geografia espaco paisagem lugar ambiente">
+                <h3>Geografia: Espaço e Paisagem</h3>
+                <p class="descricao-aula">Definições diretas e previsíveis sobre o espaço geográfico e territorial para o perfil Autismo.</p>
+                <div class="links-aula">
+                    <a href="https://youtube.com" target="_blank" class="link-youtube">Clique aqui para assistir o vídeo no YouTube</a>
+                    <a href="atividades/geografia-espaco.pdf" download class="btn-download">Baixar Material (PDF)</a>
+                </div>
+            </article>
+
+            <!-- AULA 4 -->
+            <article class="card-aula" data-perfis="baixa-visao" data-titulo="geografia continentes mapas mundo localizacao">
+                <h3>Os Continentes do Mundo</h3>
+                <p class="descricao-aula">Localização simplificada dos blocos continentais do planeta adaptada para Baixa Visão.</p>
+                <div class="links-aula">
+                    <a href="https://youtube.com" target="_blank" class="link-youtube">Clique aqui para assistir o vídeo no YouTube</a>
+                    <a href="atividades/geografia-continentes.pdf" download class="btn-download">Baixar Mapa Adaptado (PDF)</a>
+                </div>
+            </article>
+
+            <!-- AULA 5 -->
+            <article class="card-aula" data-perfis="dislexia" data-titulo="historia introducao tempo cronologico estudo">
+                <h3>Introdução ao Estudo da História</h3>
+                <p class="descricao-aula">Compreensão narrativa e linear do tempo histórico para facilidade de leitura do perfil Dislexia.</p>
+                <div class="links-aula">
+                    <a href="https://youtube.com" target="_blank" class="link-youtube">Clique aqui para assistir o vídeo no YouTube</a>
+                    <a href="atividades/introducao-historia.pdf" download class="btn-download">Baixar Atividade (PDF)</a>
+                </div>
+            </article>
+
+            <!-- AULA 6 -->
+            <article class="card-aula" data-perfis="tdah" data-titulo="portugues verbos tempos modos gramatica">
+                <h3>Língua Portuguesa: O que é Verbo?</h3>
+                <p class="descricao-aula">Estudo prático sobre as ações e fenômenos verbais estruturado em blocos para o perfil TDAH.</p>
+                <div class="links-aula">
+                    <a href="https://youtube.com" target="_blank" class="link-youtube">Clique aqui para assistir o vídeo no YouTube</a>
+                    <a href="atividades/portugues-verbos.pdf" download class="btn-download">Baixar Exercícios (PDF)</a>
+                </div>
+            </article>
+
+        </div>
+        <p id="mensagem-vazia" class="sr-only">Nenhuma aula encontrada para esta pesquisa.</p>
     </main>
 
-    <footer class="rodape-principal">
+    <footer class="rodape">
         <div class="container">
-            <p>&copy; 2026 EducaAcessível. Recursos pedagógicos simplificados e integrados com o YouTube.</p>
+            <p>&copy; 2026 EducaAcessível. Acessibilidade focada na simplicidade.</p>
         </div>
     </footer>
 
