@@ -1,24 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- INJETOR AUTOMÁTICO DE VÍDEOS DO YOUTUBE ---
-    const containersVideo = document.querySelectorAll('.video-container');
     
-    containersVideo.forEach(container => {
-        const videoId = container.getAttribute('data-youtube');
-        const tituloVideo = container.getAttribute('data-titulo-video') || 'Vídeo educativo';
+    // --- GERADOR DE LINKS E CAPAS DO YOUTUBE ---
+    const linksVideo = document.querySelectorAll('.video-link-direto');
+    
+    linksVideo.forEach(link => {
+        const videoId = link.getAttribute('data-youtube');
         
         if (videoId) {
-            // Cria o iframe dinamicamente com as melhores práticas de acessibilidade e privacidade
-            const iframe = document.createElement('iframe');
-            iframe.setAttribute('src', `https://youtube-nocookie.com{videoId}?cc_load_policy=1&hl=pt&rel=0`);
-            iframe.setAttribute('title', tituloVideo);
-            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-            iframe.setAttribute('allowfullscreen', 'true');
+            // Define o endereço exato do vídeo para abrir no YouTube
+            link.href = `https://youtube.com{videoId}`;
             
-            container.appendChild(iframe);
+            // Puxa automaticamente a imagem de capa de alta qualidade gerada pelo YouTube
+            const urlImagemCapa = `https://youtube.com{videoId}/hqdefault.jpg`;
+            
+            // Injeta a imagem de fundo e o botão de play estilizado
+            link.innerHTML = `
+                <img src="${urlImagemCapa}" alt="Capa do vídeo do YouTube" class="capa-video">
+                <div class="botao-play-visual" aria-hidden="true">▶</div>
+            `;
         }
     });
 
-    // --- SELETORES DOS BOTÕES ---
+    // --- SELETORES DOS BOTÕES ACESSÍVEIS ---
     const btnAlternarTema = document.getElementById('btn-alternar-tema');
     const btnFonteDislexia = document.getElementById('btn-fonte-dislexia');
     const btnModoFoco = document.getElementById('btn-modo-foco');
@@ -32,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let tamanhoFonteAtual = 100; 
 
-    // Alternar Tema Escuro/Claro
+    // Alternar Tema
     if(btnAlternarTema) {
         btnAlternarTema.addEventListener('click', () => {
             const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
@@ -68,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Ajuste de tamanho do texto
+    // Tamanho do texto
     if(btnAumentarTexto && btnReduzirTexto) {
         btnAumentarTexto.addEventListener('click', () => {
             if (tamanhoFonteAtual < 140) {
@@ -84,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Mecanismo de Busca Dinâmica e Filtros
+    // Filtros de busca
     const filtrarAulas = () => {
         const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;

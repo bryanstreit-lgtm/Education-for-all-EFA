@@ -1,285 +1,45 @@
-:root {
-    /* Tema Claro (Padrão) */
-    --cor-fundo-principal: #fcfcfc;
-    --cor-fundo-card: #ffffff;
-    --cor-texto-principal: #1a1a1a;
-    --cor-texto-secundario: #454545;
-    --cor-primaria: #005a9c;
-    --cor-primaria-hover: #004070;
-    --cor-borda: #ccc;
-    --cor-acessibilidade-fundo: #f0f0f0;
-    --fonte-familia: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --tamanho-base: 100%;
-    --linha-altura: 1.6;
-}
-
-[data-tema="escuro"] {
-    /* Tema Escuro */
-    --cor-fundo-principal: #121212;
-    --cor-fundo-card: #1e1e1e;
-    --cor-texto-principal: #f5f5f5;
-    --cor-texto-secundario: #dcdcdc;
-    --cor-primaria: #4fa8ff;
-    --cor-primaria-hover: #82c0ff;
-    --cor-borda: #444;
-    --cor-acessibilidade-fundo: #2a2a2a;
-}
-
-[data-fonte="dislexia"] {
-    /* Fonte Acessível para Dislexia */
-    --fonte-familia: 'OpenDyslexic', 'Comic Sans MS', sans-serif;
-    word-spacing: 0.15em;
-    letter-spacing: 0.05em;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    font-size: var(--tamanho-base);
-    font-family: var(--fonte-familia);
-    line-height: var(--linha-altura);
-    scroll-behavior: smooth;
-}
-
-body {
-    background-color: var(--cor-fundo-principal);
-    color: var(--cor-texto-principal);
-    transition: background-color 0.2s ease, color 0.2s ease;
-}
-
-/* Foco Visível para Teclado */
-*:focus-visible {
-    outline: 4px solid var(--cor-primaria);
-    outline-offset: 4px;
-}
-
-/* Acessibilidade de Tela */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
-
-.sr-only-focusable:focus {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: var(--cor-primaria);
-    color: white;
-    padding: 15px;
-    z-index: 1000;
-    border-radius: 4px;
-}
-
-/* Containers */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.container-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-/* Componentes */
-.barra-acessibilidade {
-    background-color: var(--cor-acessibilidade-fundo);
-    border-bottom: 1px solid var(--cor-borda);
-    padding: 10px 0;
-}
-
-.grupo-ajuste {
-    display: flex;
-    gap: 10px;
-}
-
-.grupo-ajuste button {
-    background-color: var(--cor-fundo-card);
-    color: var(--cor-texto-principal);
-    border: 1px solid var(--cor-borda);
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.grupo-ajuste button[aria-pressed="true"] {
-    background-color: var(--cor-primaria);
-    color: #fff;
-    border-color: var(--cor-primaria);
-}
-
-.cabecalho-principal {
-    background-color: var(--cor-fundo-card);
-    padding: 20px 0;
-    border-bottom: 1px solid var(--cor-borda);
-}
-
-.cabecalho-principal h1 a {
-    color: var(--cor-primaria);
-    text-decoration: none;
-}
-
-.menu-navegacao {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-.menu-navegacao a {
-    color: var(--cor-texto-principal);
-    text-decoration: none;
-    font-weight: 600;
-}
-
-.banner-introducao {
-    padding: 40px 0;
-    background-color: var(--cor-acessibilidade-fundo);
-    text-align: center;
-}
-
-.container-busca {
-    margin-top: 25px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.container-busca input, .container-busca select {
-    padding: 12px;
-    font-size: 1rem;
-    border: 1px solid var(--cor-borda);
-    border-radius: 4px;
-    background-color: var(--cor-fundo-card);
-    color: var(--cor-texto-principal);
-    min-width: 280px;
-}
-
-/* Grid e Cards */
-.secao-aulas {
-    padding: 50px 0;
-}
-
-.grid-aulas {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 30px;
-}
-
-.card-aula {
-    background-color: var(--cor-fundo-card);
-    border: 1px solid var(--cor-borda);
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Vídeos Responsivos do Youtube */
-.video-container {
+/* Nova estilização para links diretos com imagens de capa */
+.video-link-direto {
     position: relative;
+    display: block;
     width: 100%;
-    padding-bottom: 56.25%;
+    aspect-ratio: 16 / 9;
     background-color: #000;
+    overflow: hidden;
+    text-decoration: none;
 }
 
-.video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
+.capa-video {
     width: 100%;
     height: 100%;
-    border: 0;
-}
-
-.conteudo-card {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.conteudo-card h3 {
-    margin-bottom: 10px;
-    font-size: 1.25rem;
-}
-
-.descricao-aula {
-    color: var(--cor-texto-secundario);
-    margin-bottom: 15px;
-    flex-grow: 1;
-}
-
-.tags-perfil {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 20px;
-}
-
-.tag {
-    background-color: var(--cor-acessibilidade-fundo);
-    padding: 4px 8px;
-    font-size: 0.8rem;
-    border-radius: 4px;
-    font-weight: bold;
-}
-
-.btn-download {
+    object-fit: cover;
     display: block;
-    text-align: center;
-    background-color: var(--cor-primaria);
-    color: white !important;
-    padding: 12px;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: bold;
+    transition: transform 0.2s ease;
 }
 
-.btn-download:hover {
-    background-color: var(--cor-primaria-hover);
+.video-link-direto:hover .capa-video {
+    transform: scale(1.03); /* Leve aproximação ao passar o mouse */
 }
 
-.mensagem-vazia {
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 40px;
-    width: 100%;
+/* Botão de Play Centralizado sobre a capa */
+.botao-play-visual {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 90, 156, 0.9); /* Azul do tema com transparência */
+    color: white;
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: background-color 0.2s;
 }
 
-.rodape-principal {
-    text-align: center;
-    padding: 30px;
-    border-top: 1px solid var(--cor-borda);
-    background-color: var(--cor-fundo-card);
-    margin-top: 40px;
-}
-
-/* Configurações do Modo Foco */
-body[data-modo-foco="ativo"] .banner-introducao,
-body[data-modo-foco="ativo"] .cabecalho-principal,
-body[data-modo-foco="ativo"] .rodape-principal,
-body[data-modo-foco="ativo"] .descricao-aula,
-body[data-modo-foco="ativo"] .tags-perfil {
-    display: none !important;
-}
-
-body[data-modo-foco="ativo"] .grid-aulas {
-    grid-template-columns: 1fr;
-    max-width: 650px;
-    margin: 20px auto 0 auto;
+.video-link-direto:hover .botao-play-visual {
+    background-color: #004070; /* Cor escura no hover */
 }
