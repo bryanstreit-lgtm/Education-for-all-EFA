@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardsAula = document.querySelectorAll('.card-aula');
     const mensagemVazia = document.getElementById('mensagem-vazia');
 
-    // Variável unificada para controle do zoom de tela
+    // Variável de controle do zoom unificada
     let escalaTexto = 100; 
 
     // Alternador de Tema
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Modo Foco (CORRIGIDO: Vinculado corretamente a btnModoFoco removendo o travamento silencioso)
+    // Modo Foco
     if(btnModoFoco) {
         btnModoFoco.addEventListener('click', () => {
             const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Aumentar Texto (Desbloqueado e respondendo na hora)
+    // Aumentar Texto
     if(btnAumentarTexto) {
         btnAumentarTexto.addEventListener('click', () => {
             if (escalaTexto < 140) {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Filtros de busca dinâmica por strings minúsculas
+    // Filtros de busca
     const filtrarAulas = () => {
         const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;
