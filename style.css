@@ -1,25 +1,20 @@
-/* ==========================================================================
-   1. VARIÁVEIS E DEFINIÇÃO DE TEMAS (Atende WCAG Contraste Mínimo AA/AAA)
-   ========================================================================== */
 :root {
     /* Tema Claro (Padrão) */
     --cor-fundo-principal: #fcfcfc;
     --cor-fundo-card: #ffffff;
     --cor-texto-principal: #1a1a1a;
     --cor-texto-secundario: #454545;
-    --cor-primaria: #005a9c; /* Azul com alto contraste */
+    --cor-primaria: #005a9c;
     --cor-primaria-hover: #004070;
     --cor-borda: #ccc;
     --cor-acessibilidade-fundo: #f0f0f0;
-    
-    /* Configurações de Tipografia */
     --fonte-familia: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --tamanho-base: 100%; /* Permite que o usuário mude o tamanho no navegador */
-    --linha-altura: 1.6;  /* Excelente espaçamento para disléxicos e TDAH */
+    --tamanho-base: 100%;
+    --linha-altura: 1.6;
 }
 
 [data-tema="escuro"] {
-    /* Tema Escuro (Reduz fadiga visual) */
+    /* Tema Escuro */
     --cor-fundo-principal: #121212;
     --cor-fundo-card: #1e1e1e;
     --cor-texto-principal: #f5f5f5;
@@ -30,16 +25,13 @@
     --cor-acessibilidade-fundo: #2a2a2a;
 }
 
-/* Fonte Amigável para Dislexia (Simulada via CSS nativo focado em peso inferior) */
 [data-fonte="dislexia"] {
+    /* Fonte Acessível para Dislexia */
     --fonte-familia: 'OpenDyslexic', 'Comic Sans MS', sans-serif;
     word-spacing: 0.15em;
     letter-spacing: 0.05em;
 }
 
-/* ==========================================================================
-   2. RESETS E CONFIGURAÇÕES ACESSÍVEIS BASE
-   ========================================================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -59,13 +51,13 @@ body {
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Foco de Teclado Visível Obrigatório (WCAG 2.4.7) */
+/* Foco Visível para Teclado */
 *:focus-visible {
     outline: 4px solid var(--cor-primaria);
     outline-offset: 4px;
 }
 
-/* Classes Utilitárias de Acessibilidade */
+/* Acessibilidade de Tela */
 .sr-only {
     position: absolute;
     width: 1px;
@@ -85,16 +77,16 @@ body {
     color: white;
     padding: 15px;
     z-index: 1000;
-    text-decoration: none;
     border-radius: 4px;
 }
 
-/* Layout Container */
+/* Containers */
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
 }
+
 .container-flex {
     display: flex;
     justify-content: space-between;
@@ -103,11 +95,7 @@ body {
     gap: 10px;
 }
 
-/* ==========================================================================
-   3. COMPONENTES DE INTERFACE
-   ========================================================================== */
-
-/* Barra de Ferramentas de Acessibilidade */
+/* Componentes */
 .barra-acessibilidade {
     background-color: var(--cor-acessibilidade-fundo);
     border-bottom: 1px solid var(--cor-borda);
@@ -127,7 +115,6 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
-    font-size: 0.95rem;
 }
 
 .grupo-ajuste button[aria-pressed="true"] {
@@ -136,7 +123,6 @@ body {
     border-color: var(--cor-primaria);
 }
 
-/* Cabeçalho */
 .cabecalho-principal {
     background-color: var(--cor-fundo-card);
     padding: 20px 0;
@@ -160,15 +146,10 @@ body {
     font-weight: 600;
 }
 
-/* Área de Busca e Filtros */
 .banner-introducao {
     padding: 40px 0;
     background-color: var(--cor-acessibilidade-fundo);
     text-align: center;
-}
-
-.banner-introducao h2 {
-    margin-bottom: 15px;
 }
 
 .container-busca {
@@ -176,6 +157,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 .container-busca input, .container-busca select {
@@ -185,16 +167,12 @@ body {
     border-radius: 4px;
     background-color: var(--cor-fundo-card);
     color: var(--cor-texto-principal);
-    min-width: 250px;
+    min-width: 280px;
 }
 
-/* Grid de Aulas */
+/* Grid e Cards */
 .secao-aulas {
     padding: 50px 0;
-}
-
-.secao-aulas h2 {
-    margin-bottom: 30px;
 }
 
 .grid-aulas {
@@ -203,7 +181,6 @@ body {
     gap: 30px;
 }
 
-/* Cards das Aulas */
 .card-aula {
     background-color: var(--cor-fundo-card);
     border: 1px solid var(--cor-borda);
@@ -213,16 +190,21 @@ body {
     flex-direction: column;
 }
 
+/* Vídeos Responsivos do Youtube */
 .video-container {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    padding-bottom: 56.25%;
     background-color: #000;
 }
 
-.video-container video {
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    border: 0;
 }
 
 .conteudo-card {
@@ -234,7 +216,7 @@ body {
 
 .conteudo-card h3 {
     margin-bottom: 10px;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
 }
 
 .descricao-aula {
@@ -247,7 +229,6 @@ body {
     display: flex;
     gap: 5px;
     margin-bottom: 20px;
-    flex-wrap: wrap;
 }
 
 .tag {
@@ -267,7 +248,6 @@ body {
     text-decoration: none;
     border-radius: 4px;
     font-weight: bold;
-    transition: background-color 0.2s;
 }
 
 .btn-download:hover {
@@ -289,11 +269,7 @@ body {
     margin-top: 40px;
 }
 
-/* ==========================================================================
-   4. MODALIDADES ESPECÍFICAS DE ACESSIBILIDADE
-   ========================================================================== */
-
-/* Modo Foco (Elimina distrações visuais drasticamente para perfis TDAH e TEA) */
+/* Configurações do Modo Foco */
 body[data-modo-foco="ativo"] .banner-introducao,
 body[data-modo-foco="ativo"] .cabecalho-principal,
 body[data-modo-foco="ativo"] .rodape-principal,
@@ -302,12 +278,8 @@ body[data-modo-foco="ativo"] .tags-perfil {
     display: none !important;
 }
 
-body[data-modo-foco="ativo"] .secao-aulas {
-    padding-top: 20px;
-}
-
 body[data-modo-foco="ativo"] .grid-aulas {
-    grid-template-columns: 1fr; /* Centraliza em coluna única focando um item por vez */
-    max-width: 700px;
-    margin: 0 auto;
+    grid-template-columns: 1fr;
+    max-width: 650px;
+    margin: 20px auto 0 auto;
 }

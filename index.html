@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EFA - Education for all</title>
+    <title> EFA </title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Link de salto para leitores de tela e navegação por teclado -->
     <a href="#conteudo-principal" class="sr-only-focusable">Pular para o conteúdo principal</a>
 
     <!-- Barra de Acessibilidade Superior -->
@@ -26,11 +25,10 @@
         </div>
     </div>
 
-    <!-- Cabeçalho Principal -->
     <header class="cabecalho-principal">
         <div class="container">
             <div class="logo">
-                <h1><a href="index.html">EFA</a></h1>
+                <h1><a href="index.html">EducaAcessível</a></h1>
             </div>
             <nav aria-label="Navegação Principal">
                 <ul class="menu-navegacao">
@@ -41,96 +39,100 @@
         </div>
     </header>
 
-    <!-- Banner de Apresentação (Distração visual zero) -->
     <section class="banner-introducao" aria-labelledby="titulo-boas-vindas">
         <div class="container">
-            <h2 id="titulo-boas-vindas">Aprenda no seu próprio ritmo e do seu próprio jeito</h2>
-            <p>Uma plataforma educacional adaptável para perfis neurotípicos e neurodivergentes (TDAH, TEA, Dislexia e Baixa Visão).</p>
+            <h2 id="titulo-boas-vindas">Aprenda no seu próprio ritmo</h2>
+            <p>Conteúdos adaptados individualmente para TDAH, Autismo/TEA, Dislexia, Baixa Visão e Neurotípicos.</p>
             
-            <!-- Barra de Busca e Filtros -->
             <div class="container-busca" role="search">
-                <label for="campo-busca" class="sr-only">Buscar aulas por título ou palavra-chave</label>
-                <input type="search" id="campo-busca" placeholder="Digite o que deseja aprender...">
+                <label for="campo-busca" class="sr-only">Buscar aulas por título</label>
+                <input type="search" id="campo-busca" placeholder="Digite a matéria (ex: verbos, matematica)...">
                 
-                <label for="filtro-perfil" class="sr-only">Filtrar aulas por perfil de aprendizado</label>
+                <label for="filtro-perfil" class="sr-only">Filtrar por perfil</label>
                 <select id="filtro-perfil">
                     <option value="todos">Todos os perfis</option>
                     <option value="tdah">Foco Adaptado (TDAH)</option>
                     <option value="tea">Visual Limpo (Autismo/TEA)</option>
                     <option value="dislexia">Leitura Facilitada (Dislexia)</option>
                     <option value="baixa-visao">Alto Contraste (Baixa Visão)</option>
+                    <option value="neurotipico">Formato Tradicional (Neurotípicos)</option>
                 </select>
             </div>
         </div>
     </section>
 
-    <!-- Conteúdo Principal / Grid de Aulas -->
     <main id="conteudo-principal" class="conteudo-principal">
         <section id="secao-aulas" class="secao-aulas" aria-labelledby="titulo-grid">
             <div class="container">
-                <h2 id="titulo-grid">Nossas Aulas Disponíveis</h2>
+                <h2 id="titulo-grid">Aulas Disponíveis</h2>
                 
                 <div class="grid-aulas" id="grid-aulas">
                     
-                    <!-- Card de Aula 1 -->
-                    <article class="card-aula" data-perfis="tdah dislexia" data-titulo="introducao a matematica basica">
+                    <!-- AULA 1: MATEMÁTICA BÁSICA (Perfil: TDAH) -->
+                    <article class="card-aula" data-perfis="tdah" data-titulo="matemantica basica do zero quatro operacoes">
                         <div class="video-container">
-                            <!-- Tag de vídeo nativa com faixas de legenda (obrigatório WCAG) -->
-                            <video controls preload="metadata" poster="https://placeholder.com">
-                                <source src="caminho-do-video.mp4" type="video/mp4">
-                                <track src="legendas-pt.vtt" kind="subtitles" srclang="pt" label="Português" default>
-                                Seu navegador não suporta reprodução de vídeos nativos.
-                            </video>
+                            <iframe src="https://youtube-nocookie.com" title="Vídeo de Matemática Básica do Zero" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                         <div class="conteudo-card">
-                            <h3>Introdução à Matemática Básica</h3>
-                            <p class="descricao-aula">Aprenda as quatro operações principais de forma visual, sequencial e sem termos complexos.</p>
-                            <div class="tags-perfil">
-                                <span class="tag">TDAH</span>
-                                <span class="tag">Dislexia</span>
-                            </div>
-                            <a href="atividades/matemantica-basica.pdf" class="btn-download" download aria-label="Baixar atividade em PDF de Introdução à Matemática Básica para impressão">
-                                Baixar Atividade (PDF)
-                            </a>
+                            <h3>Matemática Básica do Zero</h3>
+                            <p class="descricao-aula">Explicação dinâmica e sem rodeios sobre as quatro operações essenciais, estruturada para manter o foco ativo.</p>
+                            <div class="tags-perfil"><span class="tag">TDAH</span></div>
+                            <a href="https://geogebra.org" class="btn-download" download target="_blank" aria-label="Baixar PDF de Matemática Básica via GeoGebra">Baixar Atividade (PDF)</a>
                         </div>
                     </article>
 
-                    <!-- Card de Aula 2 -->
-                    <article class="card-aula" data-perfis="tea baixa-visao" data-titulo="historia do brasil imperio">
+                    <!-- AULA 2: MATEMÁTICA CONJUNTOS (Perfil: Neurotípico) -->
+                    <article class="card-aula" data-perfis="neurotipico" data-titulo="matemantica conjuntos numericos fundamentais">
                         <div class="video-container">
-                            <video controls preload="metadata" poster="https://placeholder.com">
-                                <source src="caminho-do-video-2.mp4" type="video/mp4">
-                                <track src="legendas-historia.vtt" kind="subtitles" srclang="pt" label="Português">
-                                Seu navegador não suporta reprodução de vídeos nativos.
-                            </video>
+                            <iframe src="https://youtube-nocookie.com" title="Vídeo de Conjuntos e Matemática Fundamental" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                         <div class="conteudo-card">
-                            <h3>História do Brasil: Império</h3>
-                            <p class="descricao-aula">Uma linha do tempo explicativa e com áudio descrição detalhada sobre o período imperial do país.</p>
-                            <div class="tags-perfil">
-                                <span class="tag">Autismo/TEA</span>
-                                <span class="tag">Baixa Visão</span>
-                            </div>
-                            <a href="atividades/historia-imperio.pdf" class="btn-download" download aria-label="Baixar atividade em PDF de História do Brasil Império para impressão">
-                                Baixar Atividade (PDF)
-                            </a>
+                            <h3>Conjuntos Numéricos e Fundamentos</h3>
+                            <p class="descricao-aula">Abordagem teórica completa e sequencial dos conjuntos matemáticos para estudantes que preferem o formato tradicional de estudo.</p>
+                            <div class="tags-perfil"><span class="tag">Neurotípicos</span></div>
+                            <a href="http://obmep.org.br" class="btn-download" download target="_blank" aria-label="Baixar apostila oficial de conjuntos da OBMEP">Baixar Apostila (PDF)</a>
                         </div>
                     </article>
 
-                </div>
-                <!-- Mensagem caso nenhum filtro retorne aulas -->
-                <p id="mensagem-vazia" class="mensagem-vazia sr-only" role="status">Nenhuma aula encontrada para os filtros selecionados.</p>
-            </div>
-        </section>
-    </main>
+                    <!-- AULA 3: GEOGRAFIA - TEMA 1 (Perfil: Autismo/TEA) -->
+                    <article class="card-aula" data-perfis="tea" data-titulo="geografia categorias espaco paisagem territorio">
+                        <div class="video-container">
+                            <iframe src="https://youtube-nocookie.com" title="Vídeo sobre Conceitos Básicos da Geografia" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="conteudo-card">
+                            <h3>Conceitos de Espaço e Paisagem</h3>
+                            <p class="descricao-aula">Definições visuais e estruturadas sobre o espaço geográfico, território e lugar. Layout limpo e previsível.</p>
+                            <div class="tags-perfil"><span class="tag">Autismo/TEA</span></div>
+                            <a href="http://mec.gov.br" class="btn-download" download target="_blank" aria-label="Baixar Parâmetros Curriculares de Geografia do Ministério da Educação">Baixar Material (PDF)</a>
+                        </div>
+                    </article>
 
-    <!-- Rodapé -->
-    <footer class="rodape-principal">
-        <div class="container">
-            <p>&copy; 2026 EducaAcessível. Desenvolvido sob as diretrizes de acessibilidade web (WCAG).</p>
-        </div>
-    </footer>
+                    <!-- AULA 4: GEOGRAFIA - TEMA 2 (Perfil: Baixa Visão) -->
+                    <article class="card-aula" data-perfis="baixa-visao" data-titulo="geografia nosso lugar no mundo continentes">
+                        <div class="video-container">
+                            <iframe src="https://youtube-nocookie.com" title="Vídeo explicativo Meu Lugar no Mundo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="conteudo-card">
+                            <h3>O Nosso Lugar no Mundo</h3>
+                            <p class="descricao-aula">Localização espacial dividida de forma simples (Planeta, Continente, País). Elementos de alto contraste nativo.</p>
+                            <div class="tags-perfil"><span class="tag">Baixa Visão</span></div>
+                            <a href="http://mec.gov.br" class="btn-download" download target="_blank" aria-label="Baixar caderno de cartografia acessível do MEC">Baixar Mapa Adaptado (PDF)</a>
+                        </div>
+                    </article>
 
-    <script src="script.js"></script>
-</body>
-</html>
+                    <!-- AULA 5: HISTÓRIA - TEMA 1 (Perfil: Dislexia) -->
+                    <article class="card-aula" data-perfis="dislexia" data-titulo="historia introducao a historia tempo cronologico">
+                        <div class="video-container">
+                            <iframe src="https://youtube-nocookie.com" title="Vídeo explicativo de Introdução à História" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="conteudo-card">
+                            <h3>Introdução ao Estudo da História</h3>
+                            <p class="descricao-aula">Compreensão do tempo cronológico e histórico explicada de forma narrativa e linear para facilitar a decodificação da leitura.</p>
+                            <div class="tags-perfil"><span class="tag">Dislexia</span></div>
+                            <a href="https://www.gov.br" class="btn-download" download target="_blank" aria-label="Baixar Caderno Histórico Oficial do Arquivo Nacional">Baixar Atividade (PDF)</a>
+                        </div>
+                    </article>
+
+                    <!-- AULA 6: PORTUGUÊS - VERBOS (Perfil: TDAH) -->
+                    <article class="card-aula" data-perfis="tdah" data-titulo="portugues estudo dos verbos tempos modos">
+                        <div class="video-container">
