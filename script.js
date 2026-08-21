@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- SELETORES SEGUROS ---
+    // --- INJETOR AUTOMÁTICO DE VÍDEOS DO YOUTUBE ---
+    const containersVideo = document.querySelectorAll('.video-container');
+    
+    containersVideo.forEach(container => {
+        const videoId = container.getAttribute('data-youtube');
+        const tituloVideo = container.getAttribute('data-titulo-video') || 'Vídeo educativo';
+        
+        if (videoId) {
+            // Cria o iframe dinamicamente com as melhores práticas de acessibilidade e privacidade
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('src', `https://youtube-nocookie.com{videoId}?cc_load_policy=1&hl=pt&rel=0`);
+            iframe.setAttribute('title', tituloVideo);
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+            iframe.setAttribute('allowfullscreen', 'true');
+            
+            container.appendChild(iframe);
+        }
+    });
+
+    // --- SELETORES DOS BOTÕES ---
     const btnAlternarTema = document.getElementById('btn-alternar-tema');
     const btnFonteDislexia = document.getElementById('btn-fonte-dislexia');
     const btnModoFoco = document.getElementById('btn-modo-foco');
@@ -13,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let tamanhoFonteAtual = 100; 
 
-    // --- CORREÇÃO DOS BOTÕES SUPERIORES ---
+    // Alternar Tema Escuro/Claro
     if(btnAlternarTema) {
         btnAlternarTema.addEventListener('click', () => {
             const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
@@ -21,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Fonte Dislexia
     if(btnFonteDislexia) {
         btnFonteDislexia.addEventListener('click', () => {
             const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
@@ -34,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Modo Foco
     if(btnModoFoco) {
         btnModoFoco.addEventListener('click', () => {
             const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
@@ -47,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Ajuste de tamanho do texto
     if(btnAumentarTexto && btnReduzirTexto) {
         btnAumentarTexto.addEventListener('click', () => {
             if (tamanhoFonteAtual < 140) {
@@ -62,9 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- MECANISMO DE FILTRO ULTRA REVISADO ---
+    // Mecanismo de Busca Dinâmica e Filtros
     const filtrarAulas = () => {
-        // Validação simples e robusta de string para rodar em qualquer navegador local
         const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;
         let visiveis = 0;
