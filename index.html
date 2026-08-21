@@ -3,111 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EducaMundo - Plataforma de Aulas Globais</title>
-    <style>
-        /* CSS para o Layout */
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 0; }
-        
-        /* Barra de Navegação Superior */
-        .navbar { background-color: #007bff; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; color: white; }
-        .navbar h1 { margin: 0; font-size: 24px; }
-        .nav-links a { color: white; text-decoration: none; margin-left: 20px; font-weight: bold; }
-        .nav-links a:hover { text-decoration: underline; }
-        
-        /* Área de Busca */
-        .search-section { background-color: #0056b3; padding: 40px 20px; text-align: center; color: white; }
-        .search-section h2 { margin: 0 0 15px 0; }
-        .search-box { width: 100%; max-width: 500px; padding: 12px; border: none; border-radius: 25px; font-size: 16px; outline: none; }
-
-        /* Grade de Vídeos / Conteúdo */
-        .main-content { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
-        .section-title { color: #333; margin-bottom: 20px; }
-        .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        
-        /* Cartão de Vídeo */
-        .video-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
-        .video-card:hover { transform: translateY(-5px); }
-        .thumbnail { width: 100%; height: 160px; background-color: #333; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; }
-        .video-info { padding: 15px; }
-        .video-title { margin: 0 0 8px 0; font-size: 16px; color: #111; }
-        .video-meta { font-size: 13px; color: #666; margin: 0; }
-        .flag { background: #e9ecef; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; }
-    </style>
+    <title>EFA - Education for all</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Barra de Navegação Corrigida -->
-    <nav class="navbar">
-        <h1>🌍 EducaMundo</h1>
-        <div class="nav-links">
-            <a href="login.html">🔑 Entrar / Cadastrar</a>
-            <a href="perfil.html">👤 Meu Perfil</a>
-        </div>
-    </nav>
+    <!-- Link de salto para leitores de tela e navegação por teclado -->
+    <a href="#conteudo-principal" class="sr-only-focusable">Pular para o conteúdo principal</a>
 
-    <!-- Seção de Busca Principal -->
-    <section class="search-section">
-        <h2>Aprenda qualquer coisa, de qualquer lugar do mundo</h2>
-        <input type="text" class="search-box" id="search-input" placeholder="Pesquisar aulas, matérias ou países..." onkeyup="filtrarAulas()">
+    <!-- Barra de Acessibilidade Superior -->
+    <div class="barra-acessibilidade" role="region" aria-label="Ferramentas de Acessibilidade">
+        <div class="container-flex">
+            <div class="grupo-ajuste">
+                <button id="btn-reduzir-texto" aria-label="Diminuir tamanho do texto">A-</button>
+                <button id="btn-aumentar-texto" aria-label="Aumentar tamanho do texto">A+</button>
+                <button id="btn-fonte-dislexia" aria-pressed="false">Fonte para Dislexia</button>
+            </div>
+            <div class="grupo-ajuste">
+                <button id="btn-modo-foco" aria-pressed="false">Modo Foco (TDAH/TEA)</button>
+                <button id="btn-alternar-tema" aria-label="Alternar entre tema claro e escuro">Alternar Tema</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cabeçalho Principal -->
+    <header class="cabecalho-principal">
+        <div class="container">
+            <div class="logo">
+                <h1><a href="index.html">EFA</a></h1>
+            </div>
+            <nav aria-label="Navegação Principal">
+                <ul class="menu-navegacao">
+                    <li><a href="index.html" aria-current="page">Início</a></li>
+                    <li><a href="#secao-aulas">Aulas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Banner de Apresentação (Distração visual zero) -->
+    <section class="banner-introducao" aria-labelledby="titulo-boas-vindas">
+        <div class="container">
+            <h2 id="titulo-boas-vindas">Aprenda no seu próprio ritmo e do seu próprio jeito</h2>
+            <p>Uma plataforma educacional adaptável para perfis neurotípicos e neurodivergentes (TDAH, TEA, Dislexia e Baixa Visão).</p>
+            
+            <!-- Barra de Busca e Filtros -->
+            <div class="container-busca" role="search">
+                <label for="campo-busca" class="sr-only">Buscar aulas por título ou palavra-chave</label>
+                <input type="search" id="campo-busca" placeholder="Digite o que deseja aprender...">
+                
+                <label for="filtro-perfil" class="sr-only">Filtrar aulas por perfil de aprendizado</label>
+                <select id="filtro-perfil">
+                    <option value="todos">Todos os perfis</option>
+                    <option value="tdah">Foco Adaptado (TDAH)</option>
+                    <option value="tea">Visual Limpo (Autismo/TEA)</option>
+                    <option value="dislexia">Leitura Facilitada (Dislexia)</option>
+                    <option value="baixa-visao">Alto Contraste (Baixa Visão)</option>
+                </select>
+            </div>
+        </div>
     </section>
 
-    <!-- Lista de Aulas Disponíveis -->
-    <main class="main-content">
-        <h3 class="section-title">✨ Aulas em Destaque</h3>
-        
-        <div class="video-grid" id="grid-aulas">
-            
-            <!-- Card da Aula 1 (Aponta para aula.html) -->
-            <div class="video-card" onclick="window.location.href='aula.html'">
-                <div class="thumbnail" style="background-color: #4a148c;">[ Vídeo: IA ]</div>
-                <div class="video-info">
-                    <h4 class="video-title">Introdução à Inteligência Artificial</h4>
-                    <p class="video-meta">Prof. John Doe</p>
-                    <p class="video-meta">Origem: <span class="flag">🇺🇸 EUA</span></p>
-                </div>
-            </div>
+    <!-- Conteúdo Principal / Grid de Aulas -->
+    <main id="conteudo-principal" class="conteudo-principal">
+        <section id="secao-aulas" class="secao-aulas" aria-labelledby="titulo-grid">
+            <div class="container">
+                <h2 id="titulo-grid">Nossas Aulas Disponíveis</h2>
+                
+                <div class="grid-aulas" id="grid-aulas">
+                    
+                    <!-- Card de Aula 1 -->
+                    <article class="card-aula" data-perfis="tdah dislexia" data-titulo="introducao a matematica basica">
+                        <div class="video-container">
+                            <!-- Tag de vídeo nativa com faixas de legenda (obrigatório WCAG) -->
+                            <video controls preload="metadata" poster="https://placeholder.com">
+                                <source src="caminho-do-video.mp4" type="video/mp4">
+                                <track src="legendas-pt.vtt" kind="subtitles" srclang="pt" label="Português" default>
+                                Seu navegador não suporta reprodução de vídeos nativos.
+                            </video>
+                        </div>
+                        <div class="conteudo-card">
+                            <h3>Introdução à Matemática Básica</h3>
+                            <p class="descricao-aula">Aprenda as quatro operações principais de forma visual, sequencial e sem termos complexos.</p>
+                            <div class="tags-perfil">
+                                <span class="tag">TDAH</span>
+                                <span class="tag">Dislexia</span>
+                            </div>
+                            <a href="atividades/matemantica-basica.pdf" class="btn-download" download aria-label="Baixar atividade em PDF de Introdução à Matemática Básica para impressão">
+                                Baixar Atividade (PDF)
+                            </a>
+                        </div>
+                    </article>
 
-            <!-- Card da Aula 2 (Aponta para aula.html) -->
-            <div class="video-card" onclick="window.location.href='aula.html'">
-                <div class="thumbnail" style="background-color: #004d40;">[ Vídeo: Arte ]</div>
-                <div class="video-info">
-                    <h4 class="video-title">História Geral da Arte Moderna</h4>
-                    <p class="video-meta">Prof. Marie Claire</p>
-                    <p class="video-meta">Origem: <span class="flag">🇫🇷 França</span></p>
-                </div>
-            </div>
+                    <!-- Card de Aula 2 -->
+                    <article class="card-aula" data-perfis="tea baixa-visao" data-titulo="historia do brasil imperio">
+                        <div class="video-container">
+                            <video controls preload="metadata" poster="https://placeholder.com">
+                                <source src="caminho-do-video-2.mp4" type="video/mp4">
+                                <track src="legendas-historia.vtt" kind="subtitles" srclang="pt" label="Português">
+                                Seu navegador não suporta reprodução de vídeos nativos.
+                            </video>
+                        </div>
+                        <div class="conteudo-card">
+                            <h3>História do Brasil: Império</h3>
+                            <p class="descricao-aula">Uma linha do tempo explicativa e com áudio descrição detalhada sobre o período imperial do país.</p>
+                            <div class="tags-perfil">
+                                <span class="tag">Autismo/TEA</span>
+                                <span class="tag">Baixa Visão</span>
+                            </div>
+                            <a href="atividades/historia-imperio.pdf" class="btn-download" download aria-label="Baixar atividade em PDF de História do Brasil Império para impressão">
+                                Baixar Atividade (PDF)
+                            </a>
+                        </div>
+                    </article>
 
-            <!-- Card da Aula 3 (Aponta para aula.html) -->
-            <div class="video-card" onclick="window.location.href='aula.html'">
-                <div class="thumbnail" style="background-color: #bf360c;">[ Vídeo: Química ]</div>
-                <div class="video-info">
-                    <h4 class="video-title">Reações Químicas no Cotidiano</h4>
-                    <p class="video-meta">Prof. Carlos Mendoza</p>
-                    <p class="video-meta">Origem: <span class="flag">🇲🇽 México</span></p>
                 </div>
+                <!-- Mensagem caso nenhum filtro retorne aulas -->
+                <p id="mensagem-vazia" class="mensagem-vazia sr-only" role="status">Nenhuma aula encontrada para os filtros selecionados.</p>
             </div>
-
-        </div>
+        </section>
     </main>
 
-    <script>
-        // Sistema corrigido para buscar aulas por texto
-        function filtrarAulas() {
-            let input = document.getElementById('search-input').value.toLowerCase();
-            let cards = document.getElementsByClassName('video-card');
-            
-            for (let i = 0; i < cards.length; i++) {
-                let titleElement = cards[i].getElementsByClassName('video-title')[0];
-                if (titleElement) {
-                    let title = titleElement.innerText.toLowerCase();
-                    if (title.includes(input)) {
-                        cards[i].style.display = "";
-                    } else {
-                        cards[i].style.display = "none";
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Rodapé -->
+    <footer class="rodape-principal">
+        <div class="container">
+            <p>&copy; 2026 EducaAcessível. Desenvolvido sob as diretrizes de acessibilidade web (WCAG).</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

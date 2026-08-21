@@ -1,0 +1,313 @@
+/* ==========================================================================
+   1. VARIÁVEIS E DEFINIÇÃO DE TEMAS (Atende WCAG Contraste Mínimo AA/AAA)
+   ========================================================================== */
+:root {
+    /* Tema Claro (Padrão) */
+    --cor-fundo-principal: #fcfcfc;
+    --cor-fundo-card: #ffffff;
+    --cor-texto-principal: #1a1a1a;
+    --cor-texto-secundario: #454545;
+    --cor-primaria: #005a9c; /* Azul com alto contraste */
+    --cor-primaria-hover: #004070;
+    --cor-borda: #ccc;
+    --cor-acessibilidade-fundo: #f0f0f0;
+    
+    /* Configurações de Tipografia */
+    --fonte-familia: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --tamanho-base: 100%; /* Permite que o usuário mude o tamanho no navegador */
+    --linha-altura: 1.6;  /* Excelente espaçamento para disléxicos e TDAH */
+}
+
+[data-tema="escuro"] {
+    /* Tema Escuro (Reduz fadiga visual) */
+    --cor-fundo-principal: #121212;
+    --cor-fundo-card: #1e1e1e;
+    --cor-texto-principal: #f5f5f5;
+    --cor-texto-secundario: #dcdcdc;
+    --cor-primaria: #4fa8ff;
+    --cor-primaria-hover: #82c0ff;
+    --cor-borda: #444;
+    --cor-acessibilidade-fundo: #2a2a2a;
+}
+
+/* Fonte Amigável para Dislexia (Simulada via CSS nativo focado em peso inferior) */
+[data-fonte="dislexia"] {
+    --fonte-familia: 'OpenDyslexic', 'Comic Sans MS', sans-serif;
+    word-spacing: 0.15em;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   2. RESETS E CONFIGURAÇÕES ACESSÍVEIS BASE
+   ========================================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: var(--tamanho-base);
+    font-family: var(--fonte-familia);
+    line-height: var(--linha-altura);
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--cor-fundo-principal);
+    color: var(--cor-texto-principal);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Foco de Teclado Visível Obrigatório (WCAG 2.4.7) */
+*:focus-visible {
+    outline: 4px solid var(--cor-primaria);
+    outline-offset: 4px;
+}
+
+/* Classes Utilitárias de Acessibilidade */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.sr-only-focusable:focus {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--cor-primaria);
+    color: white;
+    padding: 15px;
+    z-index: 1000;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+/* Layout Container */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.container-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* ==========================================================================
+   3. COMPONENTES DE INTERFACE
+   ========================================================================== */
+
+/* Barra de Ferramentas de Acessibilidade */
+.barra-acessibilidade {
+    background-color: var(--cor-acessibilidade-fundo);
+    border-bottom: 1px solid var(--cor-borda);
+    padding: 10px 0;
+}
+
+.grupo-ajuste {
+    display: flex;
+    gap: 10px;
+}
+
+.grupo-ajuste button {
+    background-color: var(--cor-fundo-card);
+    color: var(--cor-texto-principal);
+    border: 1px solid var(--cor-borda);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.grupo-ajuste button[aria-pressed="true"] {
+    background-color: var(--cor-primaria);
+    color: #fff;
+    border-color: var(--cor-primaria);
+}
+
+/* Cabeçalho */
+.cabecalho-principal {
+    background-color: var(--cor-fundo-card);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.cabecalho-principal h1 a {
+    color: var(--cor-primaria);
+    text-decoration: none;
+}
+
+.menu-navegacao {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.menu-navegacao a {
+    color: var(--cor-texto-principal);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Área de Busca e Filtros */
+.banner-introducao {
+    padding: 40px 0;
+    background-color: var(--cor-acessibilidade-fundo);
+    text-align: center;
+}
+
+.banner-introducao h2 {
+    margin-bottom: 15px;
+}
+
+.container-busca {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.container-busca input, .container-busca select {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 4px;
+    background-color: var(--cor-fundo-card);
+    color: var(--cor-texto-principal);
+    min-width: 250px;
+}
+
+/* Grid de Aulas */
+.secao-aulas {
+    padding: 50px 0;
+}
+
+.secao-aulas h2 {
+    margin-bottom: 30px;
+}
+
+.grid-aulas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+/* Cards das Aulas */
+.card-aula {
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100%;
+}
+
+.conteudo-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.conteudo-card h3 {
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.descricao-aula {
+    color: var(--cor-texto-secundario);
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.tags-perfil {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background-color: var(--cor-acessibilidade-fundo);
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.btn-download {
+    display: block;
+    text-align: center;
+    background-color: var(--cor-primaria);
+    color: white !important;
+    padding: 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.btn-download:hover {
+    background-color: var(--cor-primaria-hover);
+}
+
+.mensagem-vazia {
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 40px;
+    width: 100%;
+}
+
+.rodape-principal {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid var(--cor-borda);
+    background-color: var(--cor-fundo-card);
+    margin-top: 40px;
+}
+
+/* ==========================================================================
+   4. MODALIDADES ESPECÍFICAS DE ACESSIBILIDADE
+   ========================================================================== */
+
+/* Modo Foco (Elimina distrações visuais drasticamente para perfis TDAH e TEA) */
+body[data-modo-foco="ativo"] .banner-introducao,
+body[data-modo-foco="ativo"] .cabecalho-principal,
+body[data-modo-foco="ativo"] .rodape-principal,
+body[data-modo-foco="ativo"] .descricao-aula,
+body[data-modo-foco="ativo"] .tags-perfil {
+    display: none !important;
+}
+
+body[data-modo-foco="ativo"] .secao-aulas {
+    padding-top: 20px;
+}
+
+body[data-modo-foco="ativo"] .grid-aulas {
+    grid-template-columns: 1fr; /* Centraliza em coluna única focando um item por vez */
+    max-width: 700px;
+    margin: 0 auto;
+}
