@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. CONFIGURAÇÕES DE CORES E TEMAS (CONTRASTE WCAG)
+   1. VARIÁVEIS E DEFINIÇÃO DE TEMAS
    ========================================================================== */
 :root {
     --cor-fundo-principal: #fcfcfc;
@@ -25,7 +25,7 @@
     --cor-acessibilidade-fundo: #2a2a2a;
 }
 
-/* REGRA INFALÍVEL PARA DISLEXIA: FORÇA A ALTERAÇÃO DO DESENHO DA LETRA */
+/* Modificação tipográfica e espaçamento real para dislexia */
 [data-fonte="dislexia"], [data-fonte="dislexia"] * {
     font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', 'Chalkboard SE', cursive, sans-serif !important;
     word-spacing: 0.18em !important;
@@ -33,7 +33,7 @@
 }
 
 /* ==========================================================================
-   2. ESTRUTURA E LAYOUT BASE
+   2. RESETS E ESTRUTURA BASE
    ========================================================================== */
 * {
     box-sizing: border-box;
@@ -42,7 +42,7 @@
 }
 
 html {
-    font-size: 100%; /* O JavaScript vai alterar diretamente essa porcentagem */
+    font-size: 100%;
     font-family: var(--fonte-familia);
     line-height: var(--linha-altura);
     scroll-behavior: smooth;
@@ -96,7 +96,7 @@ body {
 }
 
 /* ==========================================================================
-   3. COMPONENTES E DESIGN DOS BOTÕES (MODERNIZADOS)
+   3. COMPONENTES INTERNOS E ACESSIBILIDADE
    ========================================================================== */
 .barra-acessibilidade {
     background-color: var(--cor-acessibilidade-fundo);
@@ -231,7 +231,9 @@ body {
     font-weight: bold;
 }
 
-/* ESTILIZAÇÃO DOS BOTÕES DE LINK */
+/* ==========================================================================
+   4. ESTILIZAÇÃO VISUAL DOS BOTÕES DE LINK (YOUTUBE E GOOGLE DOCS)
+   ========================================================================== */
 .btn-video, .btn-doc {
     display: block;
     text-align: center;
@@ -249,6 +251,7 @@ body {
     transform: scale(0.98);
 }
 
+/* Botão Azul Temático do YouTube */
 .btn-video {
     background-color: var(--cor-primaria);
     color: white !important;
@@ -258,6 +261,7 @@ body {
     background-color: var(--cor-primaria-hover);
 }
 
+/* Botão Cinza Adaptável do Google Docs */
 .btn-doc {
     background-color: var(--cor-acessibilidade-fundo);
     color: var(--cor-texto-principal) !important;
@@ -289,7 +293,7 @@ body {
 }
 
 /* ==========================================================================
-   4. MODO FOCO (ELIMINA DISTRAÇÕES)
+   5. CONFIGURAÇÕES DO MODO FOCO
    ========================================================================== */
 body[data-modo-foco="ativo"] .banner-introducao,
 body[data-modo-foco="ativo"] .cabecalho-principal,
