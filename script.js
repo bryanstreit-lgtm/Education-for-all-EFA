@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardsAula = document.querySelectorAll('.card-aula');
     const mensagemVazia = document.getElementById('mensagem-vazia');
 
-    // Variável de controle do zoom unificada
+    // Escala inicial de texto em porcentagem
     let escalaTexto = 100; 
 
     // Alternador de Tema
@@ -50,12 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Aumentar Texto
+    // Aumentar Texto (Corrigido para injetar dinamicamente a proporção correta)
     if(btnAumentarTexto) {
         btnAumentarTexto.addEventListener('click', () => {
             if (escalaTexto < 140) {
                 escalaTexto += 10;
-                document.documentElement.style.fontSize = `${escalaTexto}%`;
+                document.documentElement.style.setProperty('--tamanho-base', `${escalaTexto}%`);
             }
         });
     }
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnReduzirTexto.addEventListener('click', () => {
             if (escalaTexto > 90) {
                 escalaTexto -= 10;
-                document.documentElement.style.fontSize = `${escalaTexto}%`;
+                document.documentElement.style.setProperty('--tamanho-base', `${escalaTexto}%`);
             }
         });
     }

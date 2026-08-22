@@ -1,3 +1,6 @@
+/* ==========================================================================
+   1. VARIÁVEIS E DEFINIÇÃO DE TEMAS
+   ========================================================================== */
 :root {
     --cor-fundo-principal: #fcfcfc;
     --cor-fundo-card: #ffffff;
@@ -23,13 +26,16 @@
     --cor-acessibilidade-fundo: #2a2a2a;
 }
 
-/* Modificação tipográfica real para dislexia */
+/* FORÇA A TROCA REAL DA FONTE NO SITE INTEIRO */
 [data-fonte="dislexia"], [data-fonte="dislexia"] * {
     font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', 'Chalkboard SE', cursive, sans-serif !important;
     word-spacing: 0.18em !important;
     letter-spacing: 0.06em !important;
 }
 
+/* ==========================================================================
+   2. RESETS E ESTRUTURA BASE
+   ========================================================================== */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -81,6 +87,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
 }
+
 .container-flex {
     display: flex;
     justify-content: space-between;
@@ -89,6 +96,9 @@ body {
     gap: 10px;
 }
 
+/* ==========================================================================
+   3. COMPONENTES E ACESSIBILIDADE
+   ========================================================================== */
 .barra-acessibilidade {
     background-color: var(--cor-acessibilidade-fundo);
     border-bottom: 1px solid var(--cor-borda);
@@ -104,10 +114,16 @@ body {
     background-color: var(--cor-fundo-card);
     color: var(--cor-texto-principal);
     border: 1px solid var(--cor-borda);
-    padding: 8px 12px;
-    border-radius: 4px;
+    padding: 8px 14px;
+    border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 0.95rem;
+    transition: background-color 0.2s;
+}
+
+.grupo-ajuste button:hover {
+    filter: brightness(0.9);
 }
 
 .grupo-ajuste button[aria-pressed="true"] {
@@ -157,12 +173,13 @@ body {
     padding: 12px;
     font-size: 1rem;
     border: 1px solid var(--cor-borda);
-    border-radius: 4px;
+    border-radius: 6px;
     background-color: var(--cor-fundo-card);
     color: var(--cor-texto-principal);
     min-width: 250px;
 }
 
+/* Grid de Aulas */
 .secao-aulas {
     padding: 50px 0;
 }
@@ -176,11 +193,12 @@ body {
 .card-aula {
     background-color: var(--cor-fundo-card);
     border: 1px solid var(--cor-borda);
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
 }
 
 .conteudo-card {
@@ -190,46 +208,79 @@ body {
 }
 
 .conteudo-card h3 {
-    margin-bottom: 10px;
-    font-size: 1.3rem;
+    margin-bottom: 12px;
+    font-size: 1.35rem;
+    color: var(--cor-texto-principal);
 }
 
 .descricao-aula {
     color: var(--cor-texto-secundario);
-    margin-bottom: 15px;
+    margin-bottom: 18px;
     flex-grow: 1;
 }
 
 .tags-perfil {
     display: flex;
-    gap: 5px;
+    gap: 6px;
     margin-bottom: 20px;
     flex-wrap: wrap;
 }
 
 .tag {
     background-color: var(--cor-acessibilidade-fundo);
-    padding: 4px 8px;
+    padding: 5px 10px;
     font-size: 0.8rem;
     border-radius: 4px;
     font-weight: bold;
 }
 
-.btn-download {
+/* ==========================================================================
+   4. DESIGN MODERNO DOS BOTÕES DE LINK (YOUTUBE E GOOGLE DOCS)
+   ========================================================================== */
+.btn-video, .btn-doc {
     display: block;
     text-align: center;
-    background-color: var(--cor-primaria);
-    color: white !important;
-    padding: 12px;
+    padding: 14px;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-weight: bold;
+    margin-top: 12px;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s, transform 0.1s, filter 0.2s;
 }
 
-.btn-download:hover {
+.btn-video:active, .btn-doc:article:active {
+    transform: scale(0.98);
+}
+
+/* Botão Vermelho/Azul do YouTube */
+.btn-video {
+    background-color: var(--cor-primaria);
+    color: white !important;
+}
+
+.btn-video:hover {
     background-color: var(--cor-primaria-hover);
 }
 
+/* Botão do Google Docs Cinza Moderno */
+.btn-doc {
+    background-color: var(--cor-acessibilidade-fundo);
+    color: var(--cor-texto-principal) !important;
+    border: 1px solid var(--cor-borda);
+}
+
+[data-tema="escuro"] .btn-doc {
+    background-color: #2a2a2a;
+    border-color: #444;
+}
+
+.btn-doc:hover {
+    filter: brightness(0.95);
+}
+
+/* Mensagem vazia e Rodapé */
 .mensagem-vazia {
     text-align: center;
     font-size: 1.2rem;
@@ -245,6 +296,9 @@ body {
     margin-top: 40px;
 }
 
+/* ==========================================================================
+   5. MODO FOCO
+   ========================================================================== */
 body[data-modo-foco="ativo"] .banner-introducao,
 body[data-modo-foco="ativo"] .cabecalho-principal,
 body[data-modo-foco="ativo"] .rodape-principal,
