@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardsAula = document.querySelectorAll('.card-aula');
     const mensagemVazia = document.getElementById('mensagem-vazia');
 
-    // Variável unificada para controle de escala de texto
+    // Escala inicial de texto
     let escalaTexto = 100; 
 
     // Alternador de Tema
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Modo Foco (Corrigido de btnFoco para btnModoFoco para destravar o script)
+    // Modo Foco
     if(btnModoFoco) {
         btnModoFoco.addEventListener('click', () => {
             const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
@@ -50,27 +50,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Aumentar Texto (Injeção de estilo em tempo real direto na raiz html)
+    // Aumentar Texto (Limite até 150%)
     if(btnAumentarTexto) {
         btnAumentarTexto.addEventListener('click', () => {
-            if (escalaTexto < 140) {
+            if (escalaTexto < 150) {
                 escalaTexto += 10;
-                document.documentElement.style.fontSize = `${escalaTexto}%`;
+                document.documentElement.style.fontSize = escalaTexto + '%';
             }
         });
     }
 
-    // Diminuir Texto
+    // Diminuir Texto (Permite encolher a fonte até 80%)
     if(btnReduzirTexto) {
         btnReduzirTexto.addEventListener('click', () => {
-            if (escalaTexto > 90) {
+            if (escalaTexto > 80) {
                 escalaTexto -= 10;
-                document.documentElement.style.fontSize = `${escalaTexto}%`;
+                document.documentElement.style.fontSize = escalaTexto + '%';
             }
         });
     }
 
-    // Lógica robusta de filtros e busca em tempo real
+    // Filtros de busca
     const filtrarAulas = () => {
         const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;

@@ -2,6 +2,7 @@
    1. VARIÁVEIS E DEFINIÇÃO DE TEMAS
    ========================================================================== */
 :root {
+    /* Tema Claro (Padrão) */
     --cor-fundo-principal: #fcfcfc;
     --cor-fundo-card: #ffffff;
     --cor-texto-principal: #1a1a1a;
@@ -15,6 +16,7 @@
 }
 
 [data-tema="escuro"] {
+    /* Tema Escuro */
     --cor-fundo-principal: #121212;
     --cor-fundo-card: #1e1e1e;
     --cor-texto-principal: #f5f5f5;
@@ -26,14 +28,14 @@
 }
 
 /* Modificação tipográfica e espaçamento real para dislexia */
-[data-fonte="dislexia"], [data-fonte="dislexia"] * {
+html[data-fonte="dislexia"], html[data-fonte="dislexia"] * {
     font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', 'Chalkboard SE', cursive, sans-serif !important;
     word-spacing: 0.18em !important;
     letter-spacing: 0.06em !important;
 }
 
 /* ==========================================================================
-   2. RESETS E ESTRUTURA BASE
+   2. RESETS E ESTRUTURA BASE (Alterado para unidades rem que aceitam redução)
    ========================================================================== */
 * {
     box-sizing: border-box;
@@ -42,7 +44,7 @@
 }
 
 html {
-    font-size: 100%;
+    font-size: 100%; /* O JavaScript vai mudar este valor livremente de 80% até 140% */
     font-family: var(--fonte-familia);
     line-height: var(--linha-altura);
     scroll-behavior: smooth;
@@ -51,6 +53,7 @@ html {
 body {
     background-color: var(--cor-fundo-principal);
     color: var(--cor-texto-principal);
+    font-size: 1rem; /* Base dinâmica */
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -96,7 +99,7 @@ body {
 }
 
 /* ==========================================================================
-   3. COMPONENTES INTERNOS E ACESSIBILIDADE
+   3. COMPONENTES E INTERFACE
    ========================================================================== */
 .barra-acessibilidade {
     background-color: var(--cor-acessibilidade-fundo);
@@ -137,6 +140,10 @@ body {
     border-bottom: 1px solid var(--cor-borda);
 }
 
+.cabecalho-principal h1 {
+    font-size: 2rem;
+}
+
 .cabecalho-principal h1 a {
     color: var(--cor-primaria);
     text-decoration: none;
@@ -152,12 +159,21 @@ body {
     color: var(--cor-texto-principal);
     text-decoration: none;
     font-weight: 600;
+    font-size: 1rem;
 }
 
 .banner-introducao {
     padding: 40px 0;
     background-color: var(--cor-acessibilidade-fundo);
     text-align: center;
+}
+
+.banner-introducao h2 {
+    font-size: 1.75rem;
+}
+
+.banner-introducao p {
+    font-size: 1.1rem;
 }
 
 .container-busca {
@@ -180,6 +196,11 @@ body {
 
 .secao-aulas {
     padding: 50px 0;
+}
+
+.secao-aulas h2 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
 }
 
 .grid-aulas {
@@ -214,6 +235,7 @@ body {
     color: var(--cor-texto-secundario);
     margin-bottom: 18px;
     flex-grow: 1;
+    font-size: 1rem;
 }
 
 .tags-perfil {
@@ -232,7 +254,7 @@ body {
 }
 
 /* ==========================================================================
-   4. ESTILIZAÇÃO VISUAL DOS BOTÕES DE LINK (YOUTUBE E GOOGLE DOCS)
+   4. BOTÕES DE LINK (YOUTUBE E GOOGLE DOCS)
    ========================================================================== */
 .btn-video, .btn-doc {
     display: block;
@@ -251,7 +273,6 @@ body {
     transform: scale(0.98);
 }
 
-/* Botão Azul Temático do YouTube */
 .btn-video {
     background-color: var(--cor-primaria);
     color: white !important;
@@ -261,7 +282,6 @@ body {
     background-color: var(--cor-primaria-hover);
 }
 
-/* Botão Cinza Adaptável do Google Docs */
 .btn-doc {
     background-color: var(--cor-acessibilidade-fundo);
     color: var(--cor-texto-principal) !important;
@@ -290,10 +310,11 @@ body {
     border-top: 1px solid var(--cor-borda);
     background-color: var(--cor-fundo-card);
     margin-top: 40px;
+    font-size: 1rem;
 }
 
 /* ==========================================================================
-   5. CONFIGURAÇÕES DO MODO FOCO
+   5. MODO FOCO
    ========================================================================== */
 body[data-modo-foco="ativo"] .banner-introducao,
 body[data-modo-foco="ativo"] .cabecalho-principal,
