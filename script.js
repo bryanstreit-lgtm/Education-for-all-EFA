@@ -9,7 +9,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const campoBusca = document.getElementById('campo-busca');
     const filtroPerfil = document.getElementById('filtro-perfil');
     const cardsAula = document.querySelectorAll('.card-aula');
-    const mensagemVazia = document.getElementById('mensagem-vazia');
+    const gridAulas = document.getElementById('grid-aulas');
+    
+    // CORREÇÃO: Busca o elemento ou cria dinamicamente para evitar o erro de 'null'
+    let mensagemVazia = document.getElementById('mensagem-vazia');
+    if (!mensagemVazia && gridAulas) {
+        mensagemVazia = document.createElement('div');
+        mensagemVazia.id = 'mensagem-vazia';
+        mensagemVazia.className = 'mensagem-vazia sr-only';
+        mensagemVazia.setAttribute('role', 'status'); // WCAG: Avisa o leitor de tela sobre mudanças
+        mensagemVazia.setAttribute('aria-live', 'polite');
+        mensagemVazia.textContent = 'Nenhuma aula encontrada para os filtros selecionados.';
+        gridAulas.parentNode.insertBefore(mensagemVazia, gridAulas.nextSibling);
+    }
 
     // Escala inicial de texto
     let escalaTexto = 100; 
@@ -17,8 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Alternador de Tema
     if(btnAlternarTema) {
         btnAlternarTema.addEventListener('click', () => {
-            const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
+            // CORREÇÃO: Garante o fallback caso o atributo inicial seja nulo
+            const temaAtual = document.documentElement.getAttribute('data-tema') || 'claro';
+            const novoTema = temaAtual === 'escuro' ? 'claro' : 'escuro';
             document.documentElement.setAttribute('data-tema', novoTema);
+            btnAlternarTema.setAttribute('aria-pressed', novoTema === 'escuro' ? 'true' : 'false');
         });
     }
 
@@ -85,16 +100,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (bateBusca && batePerfil) {
                 card.style.display = 'flex';
+                card.removeAttribute('aria-hidden'); // WCAG: Torna visível para leitores de tela
                 visiveis++;
             } else {
                 card.style.display = 'none';
+                card.setAttribute('aria-hidden', 'true'); // WCAG: Ignora no leitor de tela
             }
         });
 
-        if (visiveis === 0) {
-            mensagemVazia.classList.remove('sr-only');
-        } else {
-            mensagemVazia.classList.add('sr-only');
+        // CORREÇÃO: Validação segura para evitar quebra caso o elemento não exista
+        if (mensagemVazia) {
+            if (visiveis === 0) {
+                mensagemVazia.classList.remove('sr-only');
+            } else {
+                mensagemVazia.classList.add('sr-only');
+            }
         }
     };
 
