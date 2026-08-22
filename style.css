@@ -1,5 +1,5 @@
 /* ==========================================================================
-   1. VARIÁVEIS E DEFINIÇÃO DE TEMAS
+   1. CONFIGURAÇÕES DE CORES E TEMAS (CONTRASTE WCAG)
    ========================================================================== */
 :root {
     --cor-fundo-principal: #fcfcfc;
@@ -11,7 +11,6 @@
     --cor-borda: #ccc;
     --cor-acessibilidade-fundo: #f0f0f0;
     --fonte-familia: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    --tamanho-base: 100%;
     --linha-altura: 1.6;
 }
 
@@ -26,7 +25,7 @@
     --cor-acessibilidade-fundo: #2a2a2a;
 }
 
-/* FORÇA A TROCA REAL DA FONTE NO SITE INTEIRO */
+/* REGRA INFALÍVEL PARA DISLEXIA: FORÇA A ALTERAÇÃO DO DESENHO DA LETRA */
 [data-fonte="dislexia"], [data-fonte="dislexia"] * {
     font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', 'Chalkboard SE', cursive, sans-serif !important;
     word-spacing: 0.18em !important;
@@ -34,7 +33,7 @@
 }
 
 /* ==========================================================================
-   2. RESETS E ESTRUTURA BASE
+   2. ESTRUTURA E LAYOUT BASE
    ========================================================================== */
 * {
     box-sizing: border-box;
@@ -43,7 +42,7 @@
 }
 
 html {
-    font-size: var(--tamanho-base);
+    font-size: 100%; /* O JavaScript vai alterar diretamente essa porcentagem */
     font-family: var(--fonte-familia);
     line-height: var(--linha-altura);
     scroll-behavior: smooth;
@@ -97,7 +96,7 @@ body {
 }
 
 /* ==========================================================================
-   3. COMPONENTES E ACESSIBILIDADE
+   3. COMPONENTES E DESIGN DOS BOTÕES (MODERNIZADOS)
    ========================================================================== */
 .barra-acessibilidade {
     background-color: var(--cor-acessibilidade-fundo);
@@ -179,7 +178,6 @@ body {
     min-width: 250px;
 }
 
-/* Grid de Aulas */
 .secao-aulas {
     padding: 50px 0;
 }
@@ -210,7 +208,6 @@ body {
 .conteudo-card h3 {
     margin-bottom: 12px;
     font-size: 1.35rem;
-    color: var(--cor-texto-principal);
 }
 
 .descricao-aula {
@@ -234,9 +231,7 @@ body {
     font-weight: bold;
 }
 
-/* ==========================================================================
-   4. DESIGN MODERNO DOS BOTÕES DE LINK (YOUTUBE E GOOGLE DOCS)
-   ========================================================================== */
+/* ESTILIZAÇÃO DOS BOTÕES DE LINK */
 .btn-video, .btn-doc {
     display: block;
     text-align: center;
@@ -250,11 +245,10 @@ body {
     transition: background-color 0.2s, transform 0.1s, filter 0.2s;
 }
 
-.btn-video:active, .btn-doc:article:active {
+.btn-video:active, .btn-doc:active {
     transform: scale(0.98);
 }
 
-/* Botão Vermelho/Azul do YouTube */
 .btn-video {
     background-color: var(--cor-primaria);
     color: white !important;
@@ -264,7 +258,6 @@ body {
     background-color: var(--cor-primaria-hover);
 }
 
-/* Botão do Google Docs Cinza Moderno */
 .btn-doc {
     background-color: var(--cor-acessibilidade-fundo);
     color: var(--cor-texto-principal) !important;
@@ -280,7 +273,6 @@ body {
     filter: brightness(0.95);
 }
 
-/* Mensagem vazia e Rodapé */
 .mensagem-vazia {
     text-align: center;
     font-size: 1.2rem;
@@ -297,7 +289,7 @@ body {
 }
 
 /* ==========================================================================
-   5. MODO FOCO
+   4. MODO FOCO (ELIMINA DISTRAÇÕES)
    ========================================================================== */
 body[data-modo-foco="ativo"] .banner-introducao,
 body[data-modo-foco="ativo"] .cabecalho-principal,

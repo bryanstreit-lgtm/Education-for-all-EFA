@@ -11,10 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardsAula = document.querySelectorAll('.card-aula');
     const mensagemVazia = document.getElementById('mensagem-vazia');
 
-    // Escala inicial de texto em porcentagem
+    // Variável global de escala
     let escalaTexto = 100; 
 
-    // Alternador de Tema
+    // Alternador de Tema claro e escuro
     if(btnAlternarTema) {
         btnAlternarTema.addEventListener('click', () => {
             const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Fonte Dislexia
+    // Ativar fonte para dislexia
     if(btnFonteDislexia) {
         btnFonteDislexia.addEventListener('click', () => {
             const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Modo Foco
+    // Modo Foco adaptado para TDAH e Autismo
     if(btnModoFoco) {
         btnModoFoco.addEventListener('click', () => {
             const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
@@ -50,27 +50,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Aumentar Texto (Corrigido para injetar dinamicamente a proporção correta)
+    // MUDANÇA DIRETA NO ELEMENTO RAIZ: Altera o tamanho das fontes imediatamente
     if(btnAumentarTexto) {
         btnAumentarTexto.addEventListener('click', () => {
             if (escalaTexto < 140) {
                 escalaTexto += 10;
-                document.documentElement.style.setProperty('--tamanho-base', `${escalaTexto}%`);
+                document.documentElement.style.fontSize = escalaTexto + '%';
             }
         });
     }
 
-    // Diminuir Texto
     if(btnReduzirTexto) {
         btnReduzirTexto.addEventListener('click', () => {
             if (escalaTexto > 90) {
                 escalaTexto -= 10;
-                document.documentElement.style.setProperty('--tamanho-base', `${escalaTexto}%`);
+                document.documentElement.style.fontSize = escalaTexto + '%';
             }
         });
     }
 
-    // Filtros de busca
+    // Filtros de busca dinâmica
     const filtrarAulas = () => {
         const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;
