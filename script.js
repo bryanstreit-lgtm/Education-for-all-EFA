@@ -36,13 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const estaAtivo = document.body.classList.toggle('fonte-dislexia');
         btnFonteDislexia.setAttribute('aria-pressed', estaAtivo);
     });
-
-    // --- 3. MODO FOCO (TDAH/TEA) ---
-    btnModoFoco.addEventListener('click', () => {
-        const estaAtivo = document.body.classList.toggle('modo-foco-ativo');
-        btnModoFoco.setAttribut
-
-    });
+    
 
     // --- 4. ALTERNAR TEMA (CLARO/ESCURO) ---
     btnAlternarTema.addEventListener('click', () => {
