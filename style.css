@@ -312,42 +312,29 @@ body {
 }
 
 /* ==========================================================================
-   5. ACESSIBILIDADE: MODO FOCO (TDAH / TEA)
+   5. ACESSIBILIDADE: MODO FOCO (TDAH / TEA) - CORRIGIDO
    ========================================================================== */
 .modo-foco-ativo .banner-introducao,
 .modo-foco-ativo .barra-acessibilidade,
 .modo-foco-ativo .cabecalho-principal,
 .modo-foco-ativo .tags-perfil,
 .modo-foco-ativo .btn-doc {
-    display: none !important; /* Remove distrações visuais periféricas */
+    display: none !important; /* Oculta distrações periféricas */
 }
 
 .modo-foco-ativo .secao-aulas {
     padding-top: 40px;
 }
 
-.modo-foco-ativo .card-aula:not(.foco-visivel) {
-    opacity: 0.15; /* Esmaece os cards que não correspondem à pesquisa */
-    pointer-events: none;
-}
-body {
-    font-family: var(--fonte-padrao);
-    font-size: var(--tamanho-base); /* Controlado dinamicamente pelo JS */
-    background-color: var(--bg-principal);
-    color: var(--texto-principal);
-    line-height: 1.6;
-    transition: background-color 0.3s, color 0.3s, font-size 0.2s;
+/* Quando o Modo Foco está ativo, suaviza todos os cards por padrão */
+.modo-foco-ativo .card-aula {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
 }
 
-/* Força títulos e descrições a escalarem com base no tamanho do body */
-.conteudo-card h3 {
-    font-size: 1.3rem; /* 1.3 vezes o tamanho base atual */
-    margin-bottom: 12px;
-}
-
-.descricao-aula {
-    color: var(--texto-secundario);
-    font-size: 0.95rem; /* 0.95 vezes o tamanho base atual */
-    margin-bottom: 20px;
-    flex-grow: 1;
+/* Destaca intensamente apenas o card que está recebendo a atenção ou o foco do mouse */
+.modo-foco-ativo .card-aula:hover,
+.modo-foco-ativo .card-aula.foco-visivel {
+    opacity: 1 !important;
+    box-shadow: 0 0 25px rgba(13, 110, 253, 0.2); /* Sutil brilho azul de destaque */
 }
