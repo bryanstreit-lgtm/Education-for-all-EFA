@@ -40,8 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 3. MODO FOCO (TDAH/TEA) ---
     btnModoFoco.addEventListener('click', () => {
         const estaAtivo = document.body.classList.toggle('modo-foco-ativo');
-        btnModoFoco.setAttribute('aria-pressed', estaAtivo);
-        executarFiltros();
+        btnModoFoco.setAttribut
+
     });
 
     // --- 4. ALTERNAR TEMA (CLARO/ESCURO) ---
