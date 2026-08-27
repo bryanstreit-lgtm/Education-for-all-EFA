@@ -1,103 +1,112 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    const btnAlternarTema = document.getElementById('btn-alternar-tema');
+    // --- Seletores do Painel de Acessibilidade ---
+    const btnReduzirTexto = document.getElementById('btn-reduzir-texto');
+    const btnAumentarTexto = document.getElementById('btn-aumentar-texto');
     const btnFonteDislexia = document.getElementById('btn-fonte-dislexia');
     const btnModoFoco = document.getElementById('btn-modo-foco');
-    const btnAumentarTexto = document.getElementById('btn-aumentar-texto');
-    const btnReduzirTexto = document.getElementById('btn-reduzir-texto');
-    
+    const btnAlternarTema = document.getElementById('btn-alternar-tema');
+
+    // --- Seletores de Busca e Grid ---
     const campoBusca = document.getElementById('campo-busca');
     const filtroPerfil = document.getElementById('filtro-perfil');
-    const cardsAula = document.querySelectorAll('.card-aula');
+    const cardsAulas = document.querySelectorAll('.card-aula');
     const mensagemVazia = document.getElementById('mensagem-vazia');
 
-    // Escala inicial de texto
-    let escalaTexto = 100; 
+    // --- 1. CONTROLE DE TAMANHO DE FONTE ---
+    let tamanhoAtual = 16; 
+    const TAMANHO_MIN = 12;
+    const TAMANHO_MAX = 24;
 
-    // Alternador de Tema
-    if(btnAlternarTema) {
-        btnAlternarTema.addEventListener('click', () => {
-            const novoTema = document.documentElement.getAttribute('data-tema') === 'escuro' ? 'claro' : 'escuro';
-            document.documentElement.setAttribute('data-tema', novoTema);
-        });
+    btnAumentarTexto.addEventListener('click', () => {
+        if (tamanhoAtual < TAMANHO_MAX) {
+            tamanhoAtual += 2;
+            document.documentElement.style.setProperty('--tamanho-base', `${tamanhoAtualpx}`);
+        }
+    });
+
+    btnReduzirTexto.addEventListener('click', () => {
+        if (tamanhoAtual > TAMANHO_MIN) {
+            tamanhoAtual -= 2;
+            document.documentElement.style.setProperty('--tamanho-base', `${tamanhoAtualpx}`);
+        }
+    });
+
+    // --- 2. CONTROLE DA FONTE PARA DISLEXIA ---
+    btnFonteDislexia.addEventListener('click', () => {
+        const estaAtivo = document.body.classList.toggle('fonte-dislexia');
+        btnFonteDislexia.setAttribute('aria-pressed', estaAtivo);
+    });
+
+    // --- 3. MODO FOCO (TDAH/TEA) ---
+    btnModoFoco.addEventListener('click', () => {
+        const estaAtivo = document.body.classList.toggle('modo-foco-ativo');
+        btnModoFoco.setAttribute('aria-pressed', estaAtivo);
+        // Força a re-execução do filtro para aplicar o esmaecimento correto no modo foco
+        executarFiltros();
+    });
+
+    // --- 4. ALTERNAR TEMA (CLARO/ESCURO) ---
+    // Verifica preferência prévia do sistema do usuário
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
     }
 
-    // Fonte Dislexia
-    if(btnFonteDislexia) {
-        btnFonteDislexia.addEventListener('click', () => {
-            const ativo = document.documentElement.getAttribute('data-fonte') === 'dislexia';
-            if (!ativo) {
-                document.documentElement.setAttribute('data-fonte', 'dislexia');
-                btnFonteDislexia.setAttribute('aria-pressed', 'true');
-            } else {
-                document.documentElement.removeAttribute('data-fonte');
-                btnFonteDislexia.setAttribute('aria-pressed', 'false');
-            }
-        });
-    }
+    btnAlternarTema.addEventListener('click', () => {
+        const temaAtual = document.documentElement.getAttribute('data-theme');
+        if (temaAtual === 'dark') {
+            document.documentElement.removeAttribute('data-theme');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    });
 
-    // Modo Foco
-    if(btnModoFoco) {
-        btnModoFoco.addEventListener('click', () => {
-            const ativo = document.body.getAttribute('data-modo-foco') === 'ativo';
-            if (!ativo) {
-                document.body.setAttribute('data-modo-foco', 'ativo');
-                btnModoFoco.setAttribute('aria-pressed', 'true');
-            } else {
-                document.body.removeAttribute('data-modo-foco');
-                btnModoFoco.setAttribute('aria-pressed', 'false');
-            }
-        });
-    }
-
-    // Aumentar Texto (Limite até 150%)
-    if(btnAumentarTexto) {
-        btnAumentarTexto.addEventListener('click', () => {
-            if (escalaTexto < 150) {
-                escalaTexto += 10;
-                document.documentElement.style.fontSize = escalaTexto + '%';
-            }
-        });
-    }
-
-    // Diminuir Texto (Permite encolher a fonte até 80%)
-    if(btnReduzirTexto) {
-        btnReduzirTexto.addEventListener('click', () => {
-            if (escalaTexto > 80) {
-                escalaTexto -= 10;
-                document.documentElement.style.fontSize = escalaTexto + '%';
-            }
-        });
-    }
-
-    // Filtros de busca
-    const filtrarAulas = () => {
+    // --- 5. SISTEMA FILTRAGEM COMBINADA (BUSCA + PERFIL) ---
+    function executarFiltros() {
         const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;
-        let visiveis = 0;
+        const modoFocoAtivo = document.body.classList.contains('modo-foco-ativo');
+        let cardsVisiveis = 0;
 
-        cardsAula.forEach(card => {
-            const titulo = card.getAttribute('data-titulo') || '';
-            const perfisCard = (card.getAttribute('data-perfis') || '').split(' ');
-            
-            const bateBusca = termoBusca === '' || titulo.indexOf(termoBusca) !== -1;
-            const batePerfil = perfilSelecionado === 'todos' || perfisCard.includes(perfilSelecionado);
+        cardsAulas.forEach(card => {
+            const tituloCard = card.getAttribute('data-titulo').toLowerCase();
+            const perfisCard = card.getAttribute('data-perfis').split(' ');
 
-            if (bateBusca && batePerfil) {
-                card.style.display = 'flex';
-                visiveis++;
+            // Valida correspondência de Texto
+            const correspondeTexto = tituloCard.includes(termoBusca);
+            // Valida correspondência de Perfil
+            const correspondePerfil = (perfilSelecionado === 'todos') || perfisCard.includes(perfilSelecionado);
+
+            if (correspondeTexto && correspondePerfil) {
+                cardsVisiveis++;
+                if (modoFocoAtivo) {
+                    card.style.display = 'flex';
+                    card.classList.add('foco-visivel');
+                } else {
+                    card.style.display = 'flex';
+                    card.classList.remove('foco-visivel');
+                }
             } else {
-                card.style.display = 'none';
+                if (modoFocoAtivo) {
+                    // No modo foco, mantemos a estrutura mas esmaecemos via CSS
+                    card.classList.remove('foco-visivel');
+                } else {
+                    card.style.display = 'none';
+                    card.classList.remove('foco-visivel');
+                }
             }
         });
 
-        if (visiveis === 0) {
+        // Tratamento da Mensagem de Estado Vazio
+        if (cardsVisiveis === 0) {
             mensagemVazia.classList.remove('sr-only');
+            mensagemVazia.style.display = 'block';
         } else {
             mensagemVazia.classList.add('sr-only');
+            mensagemVazia.style.display = 'none';
         }
-    };
+    }
 
-    if(campoBusca) campoBusca.addEventListener('input', filtrarAulas);
-    if(filtroPerfil) filtroPerfil.addEventListener('change', filtrarAulas);
+    // Escutadores de eventos para busca em tempo real
+    campoBusca.addEventListener('input', executarFiltros);
+    filtroPerfil.addEventListener('change', executarFiltros);
 });
