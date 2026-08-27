@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
     btnAumentarTexto.addEventListener('click', () => {
         if (tamanhoAtual < TAMANHO_MAX) {
             tamanhoAtual += 2;
-            document.documentElement.style.setProperty('--tamanho-base', `${tamanhoAtualpx}`);
+            document.documentElement.style.setProperty('--tamanho-base', `${tamanhoAtual}px`);
         }
     });
 
     btnReduzirTexto.addEventListener('click', () => {
         if (tamanhoAtual > TAMANHO_MIN) {
             tamanhoAtual -= 2;
-            document.documentElement.style.setProperty('--tamanho-base', `${tamanhoAtualpx}`);
+            document.documentElement.style.setProperty('--tamanho-base', `${tamanhoAtual}px`);
         }
     });
 
@@ -41,16 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btnModoFoco.addEventListener('click', () => {
         const estaAtivo = document.body.classList.toggle('modo-foco-ativo');
         btnModoFoco.setAttribute('aria-pressed', estaAtivo);
-        // Força a re-execução do filtro para aplicar o esmaecimento correto no modo foco
         executarFiltros();
     });
 
     // --- 4. ALTERNAR TEMA (CLARO/ESCURO) ---
-    // Verifica preferência prévia do sistema do usuário
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-    }
-
     btnAlternarTema.addEventListener('click', () => {
         const temaAtual = document.documentElement.getAttribute('data-theme');
         if (temaAtual === 'dark') {
@@ -61,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 5. SISTEMA FILTRAGEM COMBINADA (BUSCA + PERFIL) ---
-    function executarFiltros() {
+    function ejecutarFiltros() {
         const termoBusca = campoBusca.value.toLowerCase().trim();
         const perfilSelecionado = filtroPerfil.value;
         const modoFocoAtivo = document.body.classList.contains('modo-foco-ativo');
@@ -71,23 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const tituloCard = card.getAttribute('data-titulo').toLowerCase();
             const perfisCard = card.getAttribute('data-perfis').split(' ');
 
-            // Valida correspondência de Texto
             const correspondeTexto = tituloCard.includes(termoBusca);
-            // Valida correspondência de Perfil
             const correspondePerfil = (perfilSelecionado === 'todos') || perfisCard.includes(perfilSelecionado);
 
             if (correspondeTexto && correspondePerfil) {
                 cardsVisiveis++;
+                card.style.display = 'flex';
                 if (modoFocoAtivo) {
-                    card.style.display = 'flex';
                     card.classList.add('foco-visivel');
                 } else {
-                    card.style.display = 'flex';
                     card.classList.remove('foco-visivel');
                 }
             } else {
                 if (modoFocoAtivo) {
-                    // No modo foco, mantemos a estrutura mas esmaecemos via CSS
                     card.classList.remove('foco-visivel');
                 } else {
                     card.style.display = 'none';
@@ -96,8 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Tratamento da Mensagem de Estado Vazio
-        if (cardsVisiveis === 0) {
+        if (cardsVisiveis === 0 && !modoFocoAtivo) {
             mensagemVazia.classList.remove('sr-only');
             mensagemVazia.style.display = 'block';
         } else {
@@ -106,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Escutadores de eventos para busca em tempo real
-    campoBusca.addEventListener('input', executarFiltros);
-    filtroPerfil.addEventListener('change', executarFiltros);
+    campoBusca.addEventListener('input', ejecutarFiltros);
+    filtroPerfil.addEventListener('change', ejecutarFiltros);
 });

@@ -330,3 +330,24 @@ body {
     opacity: 0.15; /* Esmaece os cards que não correspondem à pesquisa */
     pointer-events: none;
 }
+body {
+    font-family: var(--fonte-padrao);
+    font-size: var(--tamanho-base); /* Controlado dinamicamente pelo JS */
+    background-color: var(--bg-principal);
+    color: var(--texto-principal);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s, font-size 0.2s;
+}
+
+/* Força títulos e descrições a escalarem com base no tamanho do body */
+.conteudo-card h3 {
+    font-size: 1.3rem; /* 1.3 vezes o tamanho base atual */
+    margin-bottom: 12px;
+}
+
+.descricao-aula {
+    color: var(--texto-secundario);
+    font-size: 0.95rem; /* 0.95 vezes o tamanho base atual */
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
